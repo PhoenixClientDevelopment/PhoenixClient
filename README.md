@@ -7,8 +7,8 @@ The client began development on June 12th, 2024 and only has a few modules, but 
 
 The client has 2 GUIs
 
-1) The Module GUI. Modules can be enabled/disabled in this menu
+1) The Module GUI. Modules can be enabled/disabled in this menu. (Default Keybind: RSHIFT)
 ![Screenshot](pictures/mainGUI.jpg)
 
-2) The HUD GUI. HUD elements can be dragged around, pinned, and edited
+2) The HUD GUI. HUD elements can be dragged around, pinned, and edited (Default Keybind: /)
 ![Screenshot](pictures/hudGUI.jpg)
