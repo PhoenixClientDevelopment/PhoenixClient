@@ -1,4 +1,4 @@
-![Screenshot](pictures/Logo2.jpg)
+![Screenshot](pictures/Logo2.png)
 
 PhoenixClient is a new Minecraft Hacked Client developed for Fabric modloader for the latest versions of minecraft
 
