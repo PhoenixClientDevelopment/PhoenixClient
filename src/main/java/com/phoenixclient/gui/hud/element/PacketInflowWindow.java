@@ -1,0 +1,58 @@
+package com.phoenixclient.gui.hud.element;
+
+import com.phoenixclient.event.Event;
+import com.phoenixclient.event.EventAction;
+import com.phoenixclient.util.math.Vector;
+import com.phoenixclient.util.render.DrawUtil;
+import com.phoenixclient.event.events.PacketEvent;
+import com.phoenixclient.util.setting.SettingGUI;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.protocol.Packet;
+
+import java.awt.*;
+import java.util.LinkedList;
+
+//TODO: This window is not implemented. I plan to add it in the future
+public class PacketInflowWindow extends GuiWindow {
+
+    LinkedList<Packet<?>> packetList = new LinkedList<>();
+
+    private SettingGUI<String> mode;
+    private final SettingGUI<Integer> history;
+
+    public PacketInflowWindow(Screen screen, Vector pos) {
+        super(screen, "Packet Inflow", pos, new Vector(72,0));
+        this.mode = new SettingGUI<>(this,"Mode","Type of packets to log","Inflow","Inflow","Outflow");
+        this.history = new SettingGUI<>(this,"History","Range of history to appear",20,1,200,1);
+        addSettings(mode,history);
+        packetEvent.subscribe();
+    }
+
+    @Override
+    protected void drawWindow(GuiGraphics graphics, Vector mousePos) {
+        int yOff = 0;
+        for (Packet<?> packet : packetList) {
+            DrawUtil.drawText(graphics, packet.type().id().toString(), getPos().getAdded(0, yOff), Color.WHITE);
+            yOff += 12;
+        }
+        setSize(new Vector(72, yOff + 12));
+    }
+
+
+    public EventAction packetEvent = new EventAction(Event.EVENT_PACKET, () -> {
+        PacketEvent event = Event.EVENT_PACKET;
+        switch (mode.get()) {
+            case "Inflow" -> {
+                if (event.getType().equals(PacketEvent.Type.RECEIVE)) {
+
+                }
+            }
+            case "Outflow" -> {
+                if (event.getType().equals(PacketEvent.Type.SEND)) {
+
+                }
+            }
+        }
+    });
+}

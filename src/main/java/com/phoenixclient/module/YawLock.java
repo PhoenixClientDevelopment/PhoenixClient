@@ -1,0 +1,98 @@
+package com.phoenixclient.module;
+
+import com.phoenixclient.event.Event;
+import com.phoenixclient.event.EventAction;
+import com.phoenixclient.util.setting.SettingGUI;
+import com.phoenixclient.util.math.Vector;
+import net.minecraft.world.entity.vehicle.Boat;
+
+import static com.phoenixclient.PhoenixClient.MC;
+
+public class YawLock extends Module {
+
+    private final SettingGUI<String> mode = new SettingGUI<>(
+            this,
+            "Mode",
+            "Mode of YAW",
+            "Ordinal","Cardinal","Ordinal", "Coordinate", "Custom");
+
+    private final SettingGUI<Boolean> doOnce = new SettingGUI<>(
+            this,
+            "Do Once",
+            "Sets the rotation, then immediately disables the mod",
+            false);
+
+    private final SettingGUI<Double> custom = new SettingGUI<>(
+            this,
+            "Angle",
+            "Custom Angle for Custom Mode",
+            0d,-180,180,1).setSettingDependency(mode,"Custom");
+
+    private final SettingGUI<String> customX = new SettingGUI<>(
+            this,
+            "Custom X",
+            "Custom X coordinate for Coordinate Mode",
+            "0",true).setSettingDependency(mode,"Coordinate");
+
+    private final SettingGUI<String> customZ = new SettingGUI<>(
+            this,
+            "Custom Z",
+            "Custom Z coordinate for Coordinate Mode",
+            "0",true).setSettingDependency(mode,"Coordinate");
+
+
+    public YawLock() {
+        super("YawLock", "Sets the rotation of the player", Category.PLAYER, false, -1);
+        addEventActions(onPlayerUpdate);
+        addSettings(mode,doOnce, customX, customZ, custom);
+    }
+
+    //Potentially replace this with a tick event because it's a little stuttery
+    private final EventAction onPlayerUpdate = new EventAction(Event.EVENT_PLAYER_UPDATE, () -> {
+        if (MC.player != null) {
+
+            float yaw = 0;
+            switch (mode.get()) {
+                case "Cardinal" -> {
+                    float segments = 4f;
+                    yaw = Math.round((MC.player.getRotationVector().y + 1.f) / (360 / segments)) * (360 / segments);
+                }
+                case "Ordinal" -> {
+                    float segments = 8f;
+                    yaw = Math.round((MC.player.getRotationVector().y + 1.f) / (360 / segments)) * (360 / segments);
+                }
+                case "Coordinate" -> {
+                    Vector coordinate = new Vector(Integer.parseInt(customX.get()), Integer.parseInt(customZ.get()));
+                    Vector pos = new Vector(MC.player.getEyePosition().x(), MC.player.getEyePosition().z());
+                    yaw = (float) pos.getSubtracted(coordinate).getYaw().getDegrees() + 90;
+                }
+                case "Custom" -> yaw = custom.get().floatValue();
+            }
+            MC.player.setYRot(yaw);
+            MC.player.setYHeadRot(yaw);
+
+            if (MC.player.getVehicle() != null && MC.player.getVehicle() instanceof Boat)
+                MC.player.getVehicle().setYRot(yaw);
+        }
+
+        if (doOnce.get()) disable();
+    });
+
+    @Override
+    public String getModTag() {
+        return switch (mode.get()) {
+            case "Coordinate" -> customX.get() + ", " + customZ.get();
+            case "Custom" -> custom.get().toString();
+            default -> "";
+        };
+    }
+
+    @Override
+    public void onEnabled() {
+    }
+
+    @Override
+    public void onDisabled() {
+    }
+
+}
