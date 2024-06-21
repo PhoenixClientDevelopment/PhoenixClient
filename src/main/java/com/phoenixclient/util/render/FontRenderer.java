@@ -46,6 +46,7 @@ public class FontRenderer {
         graphics.setColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
 
         //Draws each character individually
+        //TODO: Double check this to make sure we arent lagging the game
         pos = pos.clone();
         for (int i = 0; i < text.toCharArray().length; i++) {
             char c = text.toCharArray()[i];

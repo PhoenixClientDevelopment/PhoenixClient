@@ -71,36 +71,26 @@ public abstract class GuiWidget {
 
     private void drawTooltip(GuiGraphics graphics, Vector mousePos) {
         if (getSetting() != null && isMouseOver() && !(this instanceof GuiWindow)) {
-            try {
-                int xOffset = 6;
-                int yOffset = -8;
-                Vector pos = mousePos.getAdded(xOffset,yOffset).clone();
-                if (pos.getX() + DrawUtil.getTextWidth(getSetting().getDescription()) + 2 > MC.getWindow().getGuiScaledWidth()) pos.setX(MC.getWindow().getGuiScaledWidth() - DrawUtil.getTextWidth(getSetting().getDescription()) - 2);
-                DrawUtil.drawRectangleRound(graphics, pos, new Vector(DrawUtil.getTextWidth(getSetting().getDescription()) + 4, 13), new Color(bgc.getRed(), bgc.getGreen(), bgc.getBlue(), bgc.getAlpha()*2/3));
-                DrawUtil.drawText(graphics,getSetting().getDescription(),pos.getAdded(2,2),Color.WHITE);
-            } catch (Exception ignored) {
-            }
+            int xOffset = 6;
+            int yOffset = -8;
+            Vector pos = mousePos.getAdded(xOffset, yOffset).clone();
+            if (pos.getX() + DrawUtil.getTextWidth(getSetting().getDescription()) + 2 > MC.getWindow().getGuiScaledWidth())
+                pos.setX(MC.getWindow().getGuiScaledWidth() - DrawUtil.getTextWidth(getSetting().getDescription()) - 2);
+            DrawUtil.drawRectangleRound(graphics, pos, new Vector(DrawUtil.getTextWidth(getSetting().getDescription()) + 4, 13), new Color(bgc.getRed(), bgc.getGreen(), bgc.getBlue(), bgc.getAlpha() * 2 / 3));
+            DrawUtil.drawText(graphics, getSetting().getDescription(), pos.getAdded(2, 2), Color.WHITE);
         }
     }
 
-    //TODO: This is a hack job of code. Make it cleaner
     protected boolean updateMouseOver(Vector mousePos) {
         boolean mouseOverX = mousePos.getX() >= getPos().getX() && mousePos.getX() <= getPos().getX() + getSize().getX();
         boolean mouseOverY = mousePos.getY() >= getPos().getY() && mousePos.getY() <= getPos().getY() + getSize().getY();
-        if (!mouseOverX || !mouseOverY) return mouseOver = false;
-        ArrayList<GuiWidget> widgetList = (ArrayList<GuiWidget>) ((GUI) getScreen()).getGuiElementList().clone();
-        Collections.reverse(widgetList);
-        for (GuiWidget widget : widgetList) {
-            boolean widgetMouseOverX = mousePos.getX() >= widget.getPos().getX() && mousePos.getX() <= widget.getPos().getX() + widget.getSize().getX();
-            boolean widgetMouseOverY = mousePos.getY() >= widget.getPos().getY() && mousePos.getY() <= widget.getPos().getY() + widget.getSize().getY();
-            if (widgetMouseOverX && widgetMouseOverY && !widget.equals(this)) {
-                if (widgetList.indexOf(widget) < widgetList.indexOf(this)) {
-                    //TODO: Disable all setting window widgets as well, that is not done here
-                    return mouseOver = false;
-                }
+        if (mouseOverX && mouseOverY) {
+            if (getScreen() instanceof GUI gui) {
+                gui.hoveredElements.add(this);
+                return mouseOver = (!gui.prevHoveredElements.isEmpty() && gui.prevHoveredElements.getLast() == this);
             }
         }
-        return mouseOver = true;
+        return mouseOver = false;
     }
 
     public float getNextFade(boolean condition, float fade, int min, int max, float speed) {
@@ -109,8 +99,7 @@ public abstract class GuiWidget {
         } else {
             if (fade > min) fade -= speed;
         }
-        fade = MathUtil.getBoundValue(fade,0,255).floatValue();
-        return fade;
+        return MathUtil.getBoundValue(fade,0,255).floatValue();
     }
 
 

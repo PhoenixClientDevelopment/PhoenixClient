@@ -141,35 +141,13 @@ public abstract class GuiWindow extends GuiWidget implements IParentGUI {
         }
     }
 
-    //TODO: Clean this code, its ugly and fat
     private void updateDragState(int button, int state, Vector mousePos) {
-        //TODO: Maybe use a comparator or the comparable interface to streamline this
-        this.dragOffset = getPos().getAdded(mousePos.getMultiplied(-1)).clone();
-        ArrayList<GuiWidget> widgetList = (ArrayList<GuiWidget>) ((HUDGUI) getScreen()).getGuiElementList().clone();
-        Collections.reverse(widgetList);
-        ArrayList<GuiWindow> windowList = new ArrayList<>();
-        for (GuiWidget widget : widgetList) {
-            if (widget instanceof GuiWindow window) {
-                if (window.getSettingWindow() != null) windowList.add(window.getSettingWindow());
-                windowList.add(window);
-            }
-        }
-
-        if (!Key.KEY_LSHIFT.isKeyDown()) {
-            boolean shouldDrag = true;
-            for (GuiWindow window : windowList) {
-                if (window.isMouseOver()) {
-                    if (!window.equals(this)) shouldDrag = false;
-                    break;
-                }
-            }
-            if (shouldDrag) setDragging(true);
-
-        }
+        this.dragOffset = getPos().getAdded(mousePos.getMultiplied(-1));
+        setDragging(!Key.KEY_LSHIFT.isKeyDown() && isMouseOver());
     }
 
+    //TODO: Right now, the pos is set at the corner from the scale, try and make it set the center instead for more consistency
     private void updateWindowCoordinatesFromScale() {
-        //TODO: Right now, the pos is set at the corner from the scale, try and make it set the center instead for more consistency
         setPos(new Vector(MC.getWindow().getGuiScaledWidth(),MC.getWindow().getGuiScaledHeight()).getScaled(posScale.get()));
     }
 
@@ -223,6 +201,7 @@ public abstract class GuiWindow extends GuiWidget implements IParentGUI {
     }
 
     private void drawAnchoredLines(GuiGraphics graphics, Vector mousePos) {
+        if (this instanceof SettingsWindow) return;
         switch (anchorX.get()) {
             case "L" -> DrawUtil.drawRectangle(graphics,getPos(),new Vector(1,getSize().getY()), Color.RED);
             case "R" -> DrawUtil.drawRectangle(graphics,getPos().getAdded(getSize().getX() - 1,0),new Vector(1,getSize().getY()),Color.RED);

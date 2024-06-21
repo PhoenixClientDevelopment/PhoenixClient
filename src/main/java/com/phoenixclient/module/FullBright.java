@@ -2,6 +2,7 @@ package com.phoenixclient.module;
 
 import com.phoenixclient.event.Event;
 import com.phoenixclient.event.EventAction;
+import com.phoenixclient.util.math.MathUtil;
 import com.phoenixclient.util.setting.SettingGUI;
 import net.minecraft.client.gui.screens.OptionsScreen;
 import net.minecraft.client.gui.screens.VideoSettingsScreen;
@@ -38,7 +39,7 @@ public class FullBright extends Module {
     private final EventAction onPlayerUpdate = new EventAction(Event.EVENT_PLAYER_UPDATE, () -> {
         if (MC.options == null) return;
         if (gammaFade < 10d) gammaFade += .1d * fadeSpeed.get();
-        MC.options.gamma().set(gammaFade);
+        MC.options.gamma().set(MathUtil.getBoundValue(gammaFade,0,10).doubleValue());
     });
 
     private final EventAction fadeOut = new EventAction(Event.EVENT_PLAYER_UPDATE, () -> {

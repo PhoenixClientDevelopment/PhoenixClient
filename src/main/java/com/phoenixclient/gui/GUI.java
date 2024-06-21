@@ -15,12 +15,18 @@ import net.minecraft.network.chat.Component;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 import static com.phoenixclient.PhoenixClient.MC;
 
 public class GUI extends Screen {
 
     private final ArrayList<GuiWidget> guiElementList = new ArrayList<>();
+
+    //Element lists for layered interaction. this is 1 game frame behind but it doesnt matter in context.
+    //Because there is no traversal, linkedlists are more appropriate
+    public LinkedList<GuiWidget> prevHoveredElements = new LinkedList<>();
+    public LinkedList<GuiWidget> hoveredElements = new LinkedList<>();
 
     public GUI(Component title) {
         super(title);
@@ -41,6 +47,10 @@ public class GUI extends Screen {
             if (!element.isDrawn()) continue;
             element.draw(guiGraphics, mousePos);
         }
+
+        //UPDATE HOVERED ELEMENTS
+        prevHoveredElements = ((LinkedList<GuiWidget>) hoveredElements.clone());
+        hoveredElements.clear();
     }
 
     @Override

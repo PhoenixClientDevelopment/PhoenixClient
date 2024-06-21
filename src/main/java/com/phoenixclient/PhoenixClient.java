@@ -37,7 +37,7 @@ public class PhoenixClient implements ModInitializer {
                 new KillAura(),
                 new AutoSwing(),
                 new YawLock(),
-                new BoatJump(),
+                new BoatMod(),
                 new AutoWalk(),
                 new AutoSprint(),
                 new FastBridge(),

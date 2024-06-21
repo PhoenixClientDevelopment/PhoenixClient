@@ -1,5 +1,6 @@
 package com.phoenixclient.gui.module.element;
 
+import com.phoenixclient.PhoenixClient;
 import com.phoenixclient.gui.WidgetUtil;
 import com.phoenixclient.util.ConsoleUtil;
 import com.phoenixclient.util.actions.OnChange;
@@ -9,6 +10,7 @@ import com.phoenixclient.gui.element.GuiButton;
 import com.phoenixclient.gui.element.GuiWidget;
 import com.phoenixclient.module.Module;
 import com.phoenixclient.util.render.ColorUtil;
+import com.phoenixclient.util.render.FontRenderer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 
@@ -18,6 +20,8 @@ import java.util.ArrayList;
 import static com.phoenixclient.PhoenixClient.MC;
 
 public class ModuleOptionsMenu extends GuiWidget {
+
+    private final FontRenderer descriptionFont = new FontRenderer(PhoenixClient.getFontRenderer().getFont().getFontName(),Font.BOLD);
 
     private ArrayList<GuiWidget> widgetList = new ArrayList<>();
 
@@ -58,9 +62,23 @@ public class ModuleOptionsMenu extends GuiWidget {
                 //Draw Head
                 mainButton.draw(graphics, mousePos);
 
-                //Draw Text
+                //Draw Title
                 DrawUtil.drawText(graphics, module.getTitle(), getPos().getAdded(getSize().getMultiplied(.5).getSubtracted(DrawUtil.getTextWidth(module.getTitle()) / 2, DrawUtil.getTextHeight() / 2)).y(6), Color.WHITE);
-                DrawUtil.drawText(graphics, module.getDescription(), getPos().getAdded(getSize().getMultiplied(.5).getSubtracted(DrawUtil.getTextWidth(module.getDescription(), .5) / 2, DrawUtil.getTextHeight() / 2)).y(20), Color.WHITE, true, .5f);
+
+                //Draw Description
+                String desc = module.getDescription();
+                float descScale = .5f;
+                float width = descriptionFont.getWidth(desc) * descScale;
+                float height = descriptionFont.getHeight() * descScale;
+                Vector pos = getPos().getAdded(getSize().getMultiplied(descScale).getSubtracted(width / 2, height / 2)).y(20);
+                DrawUtil.drawRectangleRound(graphics,pos.getSubtracted(1,1),new Vector(width,height).getAdded(3,2),new Color(50,50,50,120));
+                graphics.pose().scale(descScale, descScale, 1);
+                graphics.setColor(1, 1, 1, 255 / 255f);
+                descriptionFont.drawString(graphics,desc,pos.getAdded(1,1).getMultiplied(1/descScale),new Color(25, 25, 25, 200));
+                descriptionFont.drawString(graphics,desc,pos.getMultiplied(1/descScale),Color.WHITE);
+                graphics.pose().scale(1 / descScale, 1 / descScale, 1);
+                graphics.setColor(1f, 1f, 1f, 1f);
+
 
                 onChange.run(module,() -> {
                     this.widgetList = WidgetUtil.generateWidgetList(getScreen(), module.getSettings());
