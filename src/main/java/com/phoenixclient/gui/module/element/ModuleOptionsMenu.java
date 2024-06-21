@@ -44,7 +44,6 @@ public class ModuleOptionsMenu extends GuiWidget {
             nullify = true;
             setHoverFadeVisible(false);
         });
-        this.mainButton.setHoverFadeVisible(false);
         this.keyBindSelector = new ModuleKeyBindSelector(getScreen(),module,Vector.Null(),new Vector(getSize().getX() - 4,14), Color.BLACK);
     }
 
@@ -107,6 +106,18 @@ public class ModuleOptionsMenu extends GuiWidget {
     }
 
     @Override
+    public void runAnimation(int speed) {
+        super.runAnimation(speed);
+        mainButton.runAnimation(speed);
+        keyBindSelector.runAnimation(speed);
+        for (GuiWidget widget : widgetList) {
+            if (!widget.shouldDrawSetting()) continue;
+            widget.runAnimation(speed);
+        }
+        runScaling(speed);
+    }
+
+    @Override
     public void mousePressed(int button, int state, Vector mousePos) {
         mainButton.mousePressed(button, state, mousePos);
         keyBindSelector.mousePressed(button, state, mousePos);
@@ -124,18 +135,6 @@ public class ModuleOptionsMenu extends GuiWidget {
             if (!widget.shouldDrawSetting()) continue;
             widget.keyPressed(key,scancode,modifiers);
         }
-    }
-
-    @Override
-    public void runAnimation(int speed) {
-        mainButton.runAnimation(speed);
-        keyBindSelector.runAnimation(speed);
-        super.runAnimation(speed);
-        for (GuiWidget widget : widgetList) {
-            if (!widget.shouldDrawSetting()) continue;
-            widget.runAnimation(speed);
-        }
-        runScaling(speed);
     }
 
     private void drawWidgets(GuiGraphics graphics, Vector mousePos) {

@@ -3,6 +3,7 @@ package com.phoenixclient.util.render;
 import com.phoenixclient.PhoenixClient;
 import com.phoenixclient.util.actions.DoOnce;
 import com.phoenixclient.util.math.Angle;
+import com.phoenixclient.util.math.MathUtil;
 import com.phoenixclient.util.math.Vector;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -29,7 +30,7 @@ public class DrawUtil {
         float y = (float) pos.getY();
         graphics.pose().scale(scale, scale, 1);
         graphics.setColor(1, 1, 1, color.getAlpha() / 255f);
-        if (drawShadow) PhoenixClient.getFontRenderer().drawString(graphics,text,pos.getAdded(1,1).getMultiplied(1/scale),new Color(25, 25, 25, 200));
+        if (drawShadow) PhoenixClient.getFontRenderer().drawString(graphics,text,pos.getAdded(1,1).getMultiplied(1/scale),new Color(25, 25, 25, MathUtil.getBoundValue(color.getAlpha() - 50,0,255).intValue()));
         PhoenixClient.getFontRenderer().drawString(graphics,text,pos.getMultiplied(1/scale),color);
         //MC.font.drawInBatch(text, x * 1 / scale, y * 1 / scale, color.hashCode(), drawShadow, stack.last().pose(), graphics.bufferSource(), Font.DisplayMode.SEE_THROUGH, 0, 15728880, MC.font.isBidirectional());
         graphics.pose().scale(1 / scale, 1 / scale, 1);

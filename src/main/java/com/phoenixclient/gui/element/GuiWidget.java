@@ -12,14 +12,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
 
 import static com.phoenixclient.PhoenixClient.MC;
 
 public abstract class GuiWidget {
 
-    protected Color bgc = ColorUtil.getTheme().getBackgroundColor();
+    protected final Color bgc = ColorUtil.getTheme().getBackgroundColor();
 
     private final Screen screen;
 
@@ -71,12 +69,11 @@ public abstract class GuiWidget {
 
     private void drawTooltip(GuiGraphics graphics, Vector mousePos) {
         if (getSetting() != null && isMouseOver() && !(this instanceof GuiWindow)) {
-            int xOffset = 6;
-            int yOffset = -8;
-            Vector pos = mousePos.getAdded(xOffset, yOffset).clone();
+            Vector pos = mousePos.getAdded(6, -8).clone();
             if (pos.getX() + DrawUtil.getTextWidth(getSetting().getDescription()) + 2 > MC.getWindow().getGuiScaledWidth())
                 pos.setX(MC.getWindow().getGuiScaledWidth() - DrawUtil.getTextWidth(getSetting().getDescription()) - 2);
-            DrawUtil.drawRectangleRound(graphics, pos, new Vector(DrawUtil.getTextWidth(getSetting().getDescription()) + 4, 13), new Color(bgc.getRed(), bgc.getGreen(), bgc.getBlue(), bgc.getAlpha() * 2 / 3));
+
+            DrawUtil.drawRectangleRound(graphics, pos, new Vector(DrawUtil.getTextWidth(getSetting().getDescription()) + 4, DrawUtil.getTextHeight() + 3), new Color(bgc.getRed(), bgc.getGreen(), bgc.getBlue(), bgc.getAlpha() * 2 / 3));
             DrawUtil.drawText(graphics, getSetting().getDescription(), pos.getAdded(2, 2), Color.WHITE);
         }
     }

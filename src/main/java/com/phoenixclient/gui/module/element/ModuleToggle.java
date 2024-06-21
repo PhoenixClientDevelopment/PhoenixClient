@@ -2,6 +2,7 @@ package com.phoenixclient.gui.module.element;
 
 import com.phoenixclient.PhoenixClient;
 import com.phoenixclient.util.input.Key;
+import com.phoenixclient.util.math.MathUtil;
 import com.phoenixclient.util.math.Vector;
 import com.phoenixclient.util.render.DrawUtil;
 import com.phoenixclient.gui.element.GuiWidget;
@@ -48,7 +49,7 @@ public class ModuleToggle extends GuiWidget {
         DrawUtil.drawText(graphics, getTitle(), getPos().getAdded(new Vector(2, 1 + getSize().getY() / 2 - DrawUtil.getTextHeight() / 2)), Color.WHITE,true,(float)scale);
 
         //Draw Selection Blip
-        if (selectedSettings) DrawUtil.drawRectangleRound(graphics,pos.get(),size.get(),new Color(255,255,255,selectionFade));
+        if (selectedSettings) DrawUtil.drawRectangleRound(graphics,pos.get(),size.get(),new Color(255,255,255, MathUtil.getBoundValue(selectionFade,0,255).intValue()));
     }
 
 

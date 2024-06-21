@@ -49,28 +49,7 @@ public class HUDGUI extends GUI {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
-        drawHintText(guiGraphics);
+        drawHintText(guiGraphics, "Shift Click a window to see options!");
     }
 
-    private double hintFade = 0;
-    private boolean hintFadeIn = true;
-
-    private void drawHintText(GuiGraphics guiGraphics) {
-        String txt = "Shift Click a window to see options!";
-
-        if (hintFade <= 50) {
-            hintFadeIn = true;
-            hintFade = 50;
-        }
-        if (hintFade >= 255) {
-            hintFadeIn = false;
-            hintFade = 255;
-        }
-
-        if (hintFadeIn) hintFade += 3;
-        else hintFade -= 3;
-
-        DrawUtil.drawText(guiGraphics,txt,new Vector((double) MC.getWindow().getGuiScaledWidth() / 2 - DrawUtil.getTextWidth(txt) / 2, MC.getWindow().getGuiScaledHeight() - 14), new Color(255,255,255, MathUtil.getBoundValue(hintFade,0,255).intValue()));
-
-    }
 }

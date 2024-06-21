@@ -81,7 +81,11 @@ public abstract class GuiWindow extends GuiWidget implements IParentGUI {
 
             if (isDragging()) {
                 setPos(mousePos.getAdded(getDragOffset()));
-                posScale.set(getPos().getScaled((double) 1 / MC.getWindow().getGuiScaledWidth(), (double) 1 /MC.getWindow().getGuiScaledHeight()));
+                //Scale to Center
+                //posScale.set(getPos().getAdded(getSize().getMultiplied(.5)).getScaled((double) 1 / MC.getWindow().getGuiScaledWidth(), (double) 1 /MC.getWindow().getGuiScaledHeight()));
+
+                //Scale to Corner
+                posScale.set(getPos().getScaled((double) 1 / MC.getWindow().getGuiScaledWidth(), (double) 1 / MC.getWindow().getGuiScaledHeight()));
             }
 
             bindWindowCoordinates();
@@ -89,10 +93,10 @@ public abstract class GuiWindow extends GuiWidget implements IParentGUI {
             drawAnchoredLines(graphics, mousePos);
         }
 
-        graphics.setColor(1f,1f,1f,1f);
+        graphics.setColor(1f, 1f, 1f, 1f);
         drawWindow(graphics, mousePos);
         if (isSettingsOpen()) getSettingWindow().draw(graphics, mousePos);
-        graphics.setColor(1f,1f,1f,1f);
+        graphics.setColor(1f, 1f, 1f, 1f);
 
         drawPin(graphics, mousePos);
     }
@@ -125,7 +129,7 @@ public abstract class GuiWindow extends GuiWidget implements IParentGUI {
 
     @Override
     public void keyPressed(int key, int scancode, int modifiers) {
-        if (isSettingsOpen()) getSettingWindow().keyPressed(key,scancode,modifiers);
+        if (isSettingsOpen()) getSettingWindow().keyPressed(key, scancode, modifiers);
     }
 
     @Override
@@ -146,9 +150,14 @@ public abstract class GuiWindow extends GuiWidget implements IParentGUI {
         setDragging(!Key.KEY_LSHIFT.isKeyDown() && isMouseOver());
     }
 
-    //TODO: Right now, the pos is set at the corner from the scale, try and make it set the center instead for more consistency
     private void updateWindowCoordinatesFromScale() {
-        setPos(new Vector(MC.getWindow().getGuiScaledWidth(),MC.getWindow().getGuiScaledHeight()).getScaled(posScale.get()));
+        //Scale to Center
+        //Vector oldCenter = getPos().getAdded(getSize().getMultiplied(.5f));
+        //Vector newCenter = new Vector(MC.getWindow().getGuiScaledWidth(),MC.getWindow().getGuiScaledHeight()).getScaled(posScale.get());
+        //setPos(getPos().getAdded(newCenter.getSubtracted(oldCenter)));
+
+        //Scale to Corner
+        setPos(new Vector(MC.getWindow().getGuiScaledWidth(), MC.getWindow().getGuiScaledHeight()).getScaled(posScale.get()));
     }
 
     private void bindWindowCoordinates() {
@@ -203,20 +212,20 @@ public abstract class GuiWindow extends GuiWidget implements IParentGUI {
     private void drawAnchoredLines(GuiGraphics graphics, Vector mousePos) {
         if (this instanceof SettingsWindow) return;
         switch (anchorX.get()) {
-            case "L" -> DrawUtil.drawRectangle(graphics,getPos(),new Vector(1,getSize().getY()), Color.RED);
-            case "R" -> DrawUtil.drawRectangle(graphics,getPos().getAdded(getSize().getX() - 1,0),new Vector(1,getSize().getY()),Color.RED);
+            case "L" -> DrawUtil.drawRectangle(graphics, getPos(), new Vector(1, getSize().getY()), Color.RED);
+            case "R" -> DrawUtil.drawRectangle(graphics, getPos().getAdded(getSize().getX() - 1, 0), new Vector(1, getSize().getY()), Color.RED);
         }
 
         switch (anchorY.get()) {
-            case "U" -> DrawUtil.drawRectangle(graphics,getPos(),new Vector(getSize().getX(),1),Color.RED);
-            case "D" -> DrawUtil.drawRectangle(graphics,getPos().getAdded(0,getSize().getY() - 1),new Vector(getSize().getX(),1),Color.RED);
+            case "U" -> DrawUtil.drawRectangle(graphics, getPos(), new Vector(getSize().getX(), 1), Color.RED);
+            case "D" -> DrawUtil.drawRectangle(graphics, getPos().getAdded(0, getSize().getY() - 1), new Vector(getSize().getX(), 1), Color.RED);
         }
     }
 
     private void drawPin(GuiGraphics graphics, Vector mousePos) {
         if (Minecraft.getInstance().screen == PhoenixClient.getGuiManager().getHudGui() && shouldDrawPin()) {
-            Color pinColor = ColorUtil.getRedGreenScaledColor(pinScale);//isPinned() ? new Color(0,255,0,125) : new Color(255,0,0,125);
-            DrawUtil.drawRectangleRound(graphics, getPos(),new Vector(10,10), new Color(pinColor.getRed(),pinColor.getGreen(),pinColor.getBlue(),125));
+            Color pinColor = ColorUtil.getRedGreenScaledColor(pinScale);
+            DrawUtil.drawRectangleRound(graphics, getPos(), new Vector(10, 10), new Color(pinColor.getRed(), pinColor.getGreen(), pinColor.getBlue(), 125));
         }
     }
 

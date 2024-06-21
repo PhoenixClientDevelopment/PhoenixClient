@@ -8,12 +8,15 @@ import com.phoenixclient.gui.element.GuiWidget;
 import com.phoenixclient.gui.module.ModuleGUI;
 import com.phoenixclient.gui.hud.element.GuiWindow;
 import com.phoenixclient.util.input.Key;
+import com.phoenixclient.util.math.MathUtil;
 import com.phoenixclient.util.math.Vector;
+import com.phoenixclient.util.render.DrawUtil;
 import com.phoenixclient.util.setting.Setting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
+import java.awt.*;
 import java.util.ConcurrentModificationException;
 
 import static com.phoenixclient.PhoenixClient.MC;
@@ -43,18 +46,28 @@ public class GuiManager {
     });
 
 
+    private double hintFade = 255;
     /**
      * This event action is subscribed ONCE on initialization.
      * The action will draw all windows when the HUD is closed
      */
     public EventAction renderHudAction = new EventAction(Event.EVENT_RENDER_HUD, () -> {
+        GuiGraphics graphics = new GuiGraphics(MC, MC.renderBuffers().bufferSource());
+
+        //Draw Starting Hint
+        if (hintFade > 0) {
+            hintFade -= .25;
+            String hint = "Press " + "RShift" + " to open the module menu!";
+            DrawUtil.drawText(graphics, hint, new Vector((double) MC.getWindow().getGuiScaledWidth() / 2 - DrawUtil.getTextWidth(hint) / 2, 2), new Color(255, 255, 255, MathUtil.getBoundValue(hintFade, 0, 255).intValue()));
+        }
+
         if (MC.screen == null || !MC.screen.equals(getHudGui())) {
             for (GuiWidget element : PhoenixClient.getGuiManager().getHudGui().getGuiElementList()) {
                 if (!(element instanceof GuiWindow window)) continue;
                 window.setSettingsOpen(false); //Whenever the GUI is closed, close all setting windows
                 if (!element.isDrawn()) continue;
                 if (!window.isPinned()) continue;
-                element.draw(new GuiGraphics(MC, MC.renderBuffers().bufferSource()), new Vector(-1, -1)); //Draw each element on the HUD with a mousePos of NULL
+                element.draw(graphics, new Vector(-1, -1)); //Draw each element on the HUD with a mousePos of NULL
             }
         }
     });
@@ -75,7 +88,6 @@ public class GuiManager {
         return moduleGUI;
     }
 
-    //TODO: Im worried this causes a performance impact. Do more testing and potentially change it to be slower
     public void startAnimationThread() {
         Thread animationThread = new Thread(() -> {
             while (true) {

@@ -4,6 +4,7 @@ import com.phoenixclient.PhoenixClient;
 import com.phoenixclient.gui.module.ModuleGUI;
 import com.phoenixclient.gui.module.element.ModuleMenu;
 import com.phoenixclient.gui.module.element.ModuleOptionsMenu;
+import com.phoenixclient.util.math.MathUtil;
 import com.phoenixclient.util.math.Vector;
 import com.phoenixclient.util.render.DrawUtil;
 import com.phoenixclient.gui.element.GuiWidget;
@@ -23,10 +24,11 @@ public class GUI extends Screen {
 
     private final ArrayList<GuiWidget> guiElementList = new ArrayList<>();
 
-    //Element lists for layered interaction. this is 1 game frame behind but it doesnt matter in context.
-    //Because there is no traversal, linkedlists are more appropriate
     public LinkedList<GuiWidget> prevHoveredElements = new LinkedList<>();
     public LinkedList<GuiWidget> hoveredElements = new LinkedList<>();
+
+    private double hintFade = 0;
+    private boolean hintFadeIn = true;
 
     public GUI(Component title) {
         super(title);
@@ -45,6 +47,7 @@ public class GUI extends Screen {
         //DRAW ALL ELEMENTS
         for (GuiWidget element : getGuiElementList()) {
             if (!element.isDrawn()) continue;
+            element.runAnimation(9);
             element.draw(guiGraphics, mousePos);
         }
 
@@ -86,6 +89,23 @@ public class GUI extends Screen {
         return super.mouseReleased(x, y, button);
     }
 
+    protected void drawHintText(GuiGraphics guiGraphics, String hint) {
+        if (hintFade <= 50) {
+            hintFadeIn = true;
+            hintFade = 50;
+        }
+        if (hintFade >= 255) {
+            hintFadeIn = false;
+            hintFade = 255;
+        }
+
+        if (hintFadeIn) hintFade += 3;
+        else hintFade -= 3;
+
+        DrawUtil.drawText(guiGraphics,hint,new Vector((double) MC.getWindow().getGuiScaledWidth() / 2 - DrawUtil.getTextWidth(hint) / 2, MC.getWindow().getGuiScaledHeight() - 14), new Color(255,255,255, MathUtil.getBoundValue(hintFade,0,255).intValue()));
+
+    }
+
     public void toggleOpen() {
         boolean active = MC.screen == this;
         boolean isOtherActive = false; //Allows the GUI to be opened while in the other
@@ -93,6 +113,7 @@ public class GUI extends Screen {
         if (this == PhoenixClient.getGuiManager().getHudGui()) isOtherActive = MC.screen == PhoenixClient.getGuiManager().getModuleGui();
 
         if (MC.screen == null || isOtherActive) {
+
             for (GuiWidget widget : getGuiElementList()) {
                 if (widget instanceof ModuleMenu sw) sw.setScaling(.1f);
                 if (widget instanceof ModuleOptionsMenu mow) mow.setScaling(0f);

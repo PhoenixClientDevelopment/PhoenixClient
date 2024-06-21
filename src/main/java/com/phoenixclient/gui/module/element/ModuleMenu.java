@@ -37,6 +37,10 @@ public class ModuleMenu extends GuiWidget {
                 if (DrawUtil.getTextWidth(getTitle()) > getSize().getX()) scale = getSize().getX() / DrawUtil.getTextWidth(getTitle());
                 Vector pos = getPos().getAdded(new Vector(getSize().getX() / 2 - DrawUtil.getTextWidth(getTitle()) / 2, 1 + getSize().getY() / 2 - DrawUtil.getTextHeight() / 2));
                 DrawUtil.drawText(graphics, getTitle(), pos.getAdded(7, 0), Color.WHITE, true, (float) scale);
+
+                //Arrow Hover Fade
+                this.setHoverFadeVisible(false);
+                DrawUtil.drawArrow(graphics, getPos(), (float) getSize().getY(), new Color(255,255,255,(int)hoverFade),false);
             }
         };
 
@@ -66,14 +70,12 @@ public class ModuleMenu extends GuiWidget {
         //Window Head
         setHoverFadeVisible(false);
         mainButton.draw(graphics,mousePos);
-
-        //Arrow Hover Fade
-        DrawUtil.drawArrow(graphics, getPos(), (float) getSize().getY(), new Color(255,255,255,(int)hoverFade),false);
     }
 
     @Override
     public void runAnimation(int speed) {
         super.runAnimation(speed);
+        mainButton.runAnimation(speed);
         if (open.get()) {
             for (ModuleToggle toggle : buttonList)
                 toggle.runAnimation(speed);

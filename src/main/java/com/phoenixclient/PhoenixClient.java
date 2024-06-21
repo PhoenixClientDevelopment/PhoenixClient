@@ -56,7 +56,10 @@ public class PhoenixClient implements ModInitializer {
 
         getGuiManager().guiOpenAction.subscribe();
         getGuiManager().renderHudAction.subscribe();
-        getGuiManager().startAnimationThread();
+
+        //I'm worried this causes a performance impact.
+        //I've moved the animation calculations back to the render thread, which is now dependent on FPS
+        //getGuiManager().startAnimationThread();
 
         //Toggle all mods that are saved as "Enabled"
         for (Module module : getModules()) if (module.isEnabled()) module.enable();
