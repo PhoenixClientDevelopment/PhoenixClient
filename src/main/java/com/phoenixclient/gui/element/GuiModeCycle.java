@@ -1,12 +1,13 @@
 package com.phoenixclient.gui.element;
 
-import com.phoenixclient.util.input.Key;
+import com.phoenixclient.util.input.Mouse;
 import com.phoenixclient.util.math.MathUtil;
 import com.phoenixclient.util.math.Vector;
 import com.phoenixclient.util.render.DrawUtil;
 import com.phoenixclient.util.setting.SettingGUI;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
@@ -21,7 +22,7 @@ public class GuiModeCycle<T> extends GuiWidget {
     private int arrayNumber;
 
     public GuiModeCycle(Screen screen, SettingGUI<T> setting, Vector pos, Vector size, Color color) {
-        super(screen, pos, size, true);
+        super(screen, pos, size);
         this.setting = setting;
         this.baseColor = color;
         this.colorL = color;
@@ -31,11 +32,11 @@ public class GuiModeCycle<T> extends GuiWidget {
     @Override
     protected void drawWidget(GuiGraphics graphics, Vector mousePos) {
         //Draw Background
-        DrawUtil.drawRectangleRound(graphics,getPos(),getSize(), bgc);
+        DrawUtil.drawRectangleRound(graphics,getPos(),getSize(), BGC);
 
         //Draw Mode Arrows
-        DrawUtil.drawArrowHead(graphics,getPos().getAdded(2,2),(float)getSize().getY()-4,getColorL(),false,true);
-        DrawUtil.drawArrowHead(graphics,getPos().getAdded(-2 + getSize().getX() - 3,2),(float)getSize().getY()-4,getColorR(),false,false);
+        DrawUtil.drawArrowHead(graphics,getPos().getAdded(2,2),(float)getSize().getY()-4,colorL,false,true);
+        DrawUtil.drawArrowHead(graphics,getPos().getAdded(-2 + getSize().getX() - 3,2),(float)getSize().getY()-4,colorR,false,false);
 
         //Draw the text
         double scale = 1;
@@ -46,46 +47,47 @@ public class GuiModeCycle<T> extends GuiWidget {
 
     @Override
     public void mousePressed(int button, int action, Vector mousePos) {
-        int RIGHT = 1;
-        int LEFT = 0;
-        if (isMouseOver()) {
-            if (action == 0) {
-                if (button == RIGHT) {
-                    arrayNumber = getSetting().getModes().indexOf(getSetting().get());
-                    arrayNumber += 1;
-                    if (arrayNumber != getSetting().getModes().size()) {
-                        getSetting().set(getSetting().getModes().get(arrayNumber));
-                    } else {
-                        getSetting().set(getSetting().getModes().get(0));
-                        arrayNumber = 0;
+        int[] pressColor = {getColor().getRed(), getColor().getGreen(), getColor().getBlue()};
+        for (int i = 0; i < pressColor.length; i++) {
+            int col = pressColor[i] - 50;
+            col = MathUtil.getBoundValue(col, 0, 255).intValue();
+            pressColor[i] = col;
+        }
+
+        switch (button) {
+            case GLFW.GLFW_MOUSE_BUTTON_RIGHT -> {
+                switch (action) {
+                    case Mouse.ACTION_CLICK -> {
+                        if (isMouseOver()) colorR = new Color(pressColor[0], pressColor[1], pressColor[2], getColor().getAlpha());
                     }
-                }
-                if (button == LEFT) {
-                    arrayNumber = getSetting().getModes().indexOf(getSetting().get());
-                    arrayNumber -= 1;
-                    if (arrayNumber != -1) {
-                        getSetting().set(getSetting().getModes().get(arrayNumber));
-                    } else {
-                        getSetting().set(getSetting().getModes().get(getSetting().getModes().size() - 1));
-                        arrayNumber = getSetting().getModes().size() - 1;
+                    case Mouse.ACTION_RELEASE -> {
+                        if (isMouseOver()) switchMode(true);
+                        colorR = baseColor;
                     }
                 }
             }
-            if (action == Key.ACTION_PRESS) {
-                int[] colVal = {getColor().getRed(),getColor().getGreen(),getColor().getBlue()};
-                for (int i = 0; i < colVal.length; i++) {
-                    int col = colVal[i] - 50;
-                    col = MathUtil.getBoundValue(col,0,255).intValue();
-                    colVal[i] = col;
+
+            case GLFW.GLFW_MOUSE_BUTTON_LEFT -> {
+                switch (action) {
+                    case Mouse.ACTION_CLICK -> {
+                        if (isMouseOver()) colorL = new Color(pressColor[0], pressColor[1], pressColor[2], getColor().getAlpha());
+                    }
+                    case Mouse.ACTION_RELEASE -> {
+                        if (isMouseOver()) switchMode(false);
+                        colorL = baseColor;
+                    }
                 }
-                if (button == RIGHT) setColorR(new Color(colVal[0],colVal[1],colVal[2],getColor().getAlpha()));
-                if (button == LEFT) setColorL(new Color(colVal[0],colVal[1],colVal[2],getColor().getAlpha()));
             }
         }
-        if (action == Key.ACTION_RELEASE) {
-            if (button == RIGHT) setColorR(baseColor);
-            if (button == LEFT) setColorL(baseColor);
-        }
+    }
+
+    private void switchMode(boolean forward) {
+        int increment = forward ? 1 : -1;
+        int wrapAroundIndex = forward ? getSetting().getModes().size() : - 1;
+        int endIndex = forward ? 0 : getSetting().getModes().size() - 1;
+
+        int arrayNumber = getSetting().getModes().indexOf(getSetting().get()) + increment;
+        getSetting().set(getSetting().getModes().get(arrayNumber == wrapAroundIndex ? endIndex : arrayNumber));
     }
 
     @Override
@@ -95,32 +97,15 @@ public class GuiModeCycle<T> extends GuiWidget {
     @Override
     public void runAnimation(int speed) {
         super.runAnimation(speed);
-        //TODO: ADd a left/right scroll animation when changing modes
+        //TODO: Add a left/right scroll animation when changing modes
     }
 
     public void setColor(Color color) {
         this.baseColor = color;
     }
 
-    private void setColorR(Color colorR) {
-        this.colorR = colorR;
-    }
-
-    private void setColorL(Color colorL) {
-        this.colorL = colorL;
-    }
-
-
     public Color getColor() {
         return baseColor;
-    }
-
-    private Color getColorR() {
-        return colorR;
-    }
-
-    private Color getColorL() {
-        return colorL;
     }
 
     @Override

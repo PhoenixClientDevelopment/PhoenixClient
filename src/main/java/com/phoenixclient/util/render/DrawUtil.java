@@ -7,16 +7,13 @@ import com.phoenixclient.util.math.MathUtil;
 import com.phoenixclient.util.math.Vector;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 import static com.phoenixclient.PhoenixClient.MC;
 
@@ -192,7 +189,7 @@ public class DrawUtil {
      * Quick version of texture rectangle. Automatically sets the texture position and size to be that of the rectangle
      */
     public static void drawTexturedRect(GuiGraphics graphics, ResourceLocation texture, Vector pos, Vector size) {
-        drawTexturedRect(graphics, texture, pos, size, Vector.Null(), size);
+        drawTexturedRect(graphics, texture, pos, size, Vector.NULL(), size);
     }
 
     // ------------------------- ALT SHAPES -------------------------

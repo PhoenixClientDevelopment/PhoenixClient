@@ -1,7 +1,6 @@
 package com.phoenixclient.gui;
 
 import com.phoenixclient.PhoenixClient;
-import com.phoenixclient.gui.module.ModuleGUI;
 import com.phoenixclient.gui.module.element.ModuleMenu;
 import com.phoenixclient.gui.module.element.ModuleOptionsMenu;
 import com.phoenixclient.util.math.MathUtil;
@@ -41,12 +40,11 @@ public class GUI extends Screen {
         //DRAW BACKGROUND
         MC.gameRenderer.processBlurEffect(200);
         MC.getMainRenderTarget().bindWrite(false);
-        DrawUtil.drawRectangle(guiGraphics, Vector.Null(), getSize(), new Color(0, 0, 0, 100));
+        DrawUtil.drawRectangle(guiGraphics, Vector.NULL(), getSize(), new Color(0, 0, 0, 100));
         guiGraphics.setColor(1f,1f,1f,1f);
 
         //DRAW ALL ELEMENTS
         for (GuiWidget element : getGuiElementList()) {
-            if (!element.isDrawn()) continue;
             element.runAnimation(9);
             element.draw(guiGraphics, mousePos);
         }
@@ -60,9 +58,7 @@ public class GUI extends Screen {
     public boolean keyPressed(int key, int scancode, int modifiers) {
         boolean ret = super.keyPressed(key,scancode,modifiers);
         for (GuiWidget element : getGuiElementList()) {
-            if (element.isDrawn()) {
-                element.keyPressed(key,scancode,modifiers);
-            }
+            element.keyPressed(key,scancode,modifiers);
         }
         return ret;
     }
@@ -71,9 +67,7 @@ public class GUI extends Screen {
     public boolean mouseClicked(double x, double y, int button) {
         Vector mousePos = new Vector(x,y);
         for (GuiWidget element : getGuiElementList()) {
-            if (element.isDrawn()) {
-                element.mousePressed(button,1,mousePos);
-            }
+            element.mousePressed(button,1,mousePos);
         }
         return super.mouseClicked(x, y, button);
     }
@@ -82,9 +76,7 @@ public class GUI extends Screen {
     public boolean mouseReleased(double x, double y, int button) {
         Vector mousePos = new Vector(x,y);
         for (GuiWidget element : getGuiElementList()) {
-            if (element.isDrawn()) {
-                element.mousePressed(button,0,mousePos);
-            }
+            element.mousePressed(button,0,mousePos);
         }
         return super.mouseReleased(x, y, button);
     }

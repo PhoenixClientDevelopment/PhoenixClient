@@ -22,7 +22,7 @@ public class EntityListWindow extends GuiWindow {
     private final SettingGUI<Double> scale;
 
     public EntityListWindow(Screen screen, Vector pos) {
-        super(screen, "EntityList", pos, Vector.Null());
+        super(screen, "EntityList", pos, Vector.NULL());
         this.label = new SettingGUI<>(this,"Label","Show the label",true);
         this.range = new SettingGUI<>(this,"Range","Block range away from player of entities",64,1,200,1);
         this.scale = new SettingGUI<>(this,"Scale","The scale of the list",1d,.25d,1d,.05d);

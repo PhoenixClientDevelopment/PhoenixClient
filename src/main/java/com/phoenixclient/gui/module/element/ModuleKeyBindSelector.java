@@ -20,7 +20,7 @@ public class ModuleKeyBindSelector extends GuiWidget {
     private boolean accepting;
 
     public ModuleKeyBindSelector(Screen screen, Module module, Vector pos, Vector size, Color color) {
-        super(screen,pos,size,true);
+        super(screen,pos,size);
         this.module = module;
         this.color = color;
         this.accepting = false;
@@ -29,7 +29,7 @@ public class ModuleKeyBindSelector extends GuiWidget {
     @Override
     protected void drawWidget(GuiGraphics graphics, Vector mousePos) {
         //Draw Background
-        DrawUtil.drawRectangleRound(graphics, getPos(), getSize(), bgc);
+        DrawUtil.drawRectangleRound(graphics, getPos(), getSize(), BGC);
 
         //Draw Text
         double scale = 1;

@@ -65,7 +65,6 @@ public class GuiManager {
             for (GuiWidget element : PhoenixClient.getGuiManager().getHudGui().getGuiElementList()) {
                 if (!(element instanceof GuiWindow window)) continue;
                 window.setSettingsOpen(false); //Whenever the GUI is closed, close all setting windows
-                if (!element.isDrawn()) continue;
                 if (!window.isPinned()) continue;
                 element.draw(graphics, new Vector(-1, -1)); //Draw each element on the HUD with a mousePos of NULL
             }

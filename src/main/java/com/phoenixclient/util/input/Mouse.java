@@ -12,12 +12,12 @@ public class Mouse {
 
     private static final HashMap<Integer, Mouse> BUTTON_LIST = new HashMap<>();
 
-    public static int ACTION_CLICK = 1;
-    public static int ACTION_RELEASE = 0;
+    public static final int ACTION_CLICK = 1;
+    public static final int ACTION_RELEASE = 0;
 
-    public static Mouse BUTTON_LEFT = new Mouse(0);
-    public static Mouse BUTTON_RIGHT = new Mouse(1);
-    public static Mouse BUTTON_MIDDLE = new Mouse(2);
+    public static final Mouse BUTTON_LEFT = new Mouse(0);
+    public static final Mouse BUTTON_RIGHT = new Mouse(1);
+    public static final Mouse BUTTON_MIDDLE = new Mouse(2);
 
 
     public static final EventAction MOUSE_CLICK_ACTION = new EventAction(Event.EVENT_MOUSE_CLICK, () -> {
@@ -42,8 +42,8 @@ public class Mouse {
 
     public void update(int key, int action) {
         if (getId() == key) {
-            if (action == GLFW.GLFW_PRESS) setButtonDown(true);
-            if (action == GLFW.GLFW_RELEASE) setButtonDown(false);
+            if (action == Mouse.ACTION_CLICK) setButtonDown(true);
+            if (action == Mouse.ACTION_RELEASE) setButtonDown(false);
         }
     }
 
@@ -55,7 +55,7 @@ public class Mouse {
         return isButtonDown;
     }
 
-    public int getId() {
+    public final int getId() {
         return id;
     }
 }

@@ -24,7 +24,7 @@ public class ModuleToggle extends GuiWidget {
     public boolean selectedSettings;
 
     public ModuleToggle(Screen screen, Module module, Vector pos, Vector size, Color color) {
-        super(screen,pos,size,true);
+        super(screen,pos,size);
         this.module = module;
         this.title = module.getTitle();
         this.color = color;
@@ -37,7 +37,7 @@ public class ModuleToggle extends GuiWidget {
     @Override
     protected void drawWidget(GuiGraphics graphics, Vector mousePos) {
         //Draw Background
-        Color bgc = this.bgc;
+        Color bgc = BGC;
         DrawUtil.drawRectangleRound(graphics, getPos(), getSize(), new Color(bgc.getRed()/2,bgc.getGreen()/2,bgc.getBlue()/2,100));
 
         //Draw Fill

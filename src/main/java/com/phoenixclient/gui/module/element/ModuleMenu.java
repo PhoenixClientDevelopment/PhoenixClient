@@ -23,7 +23,7 @@ public class ModuleMenu extends GuiWidget {
     private final ArrayList<ModuleToggle> buttonList;
 
     public ModuleMenu(Screen screen, Module.Category category, Vector pos) {
-        super(screen, pos, new Vector(60,50), true);
+        super(screen, pos, new Vector(60,50));
         this.scaling = 0;
         this.buttonList = new ArrayList<>();
         this.open = new Setting<>(PhoenixClient.getSettingManager(), category.getName() + "_open", false);
@@ -39,12 +39,12 @@ public class ModuleMenu extends GuiWidget {
                 DrawUtil.drawText(graphics, getTitle(), pos.getAdded(7, 0), Color.WHITE, true, (float) scale);
 
                 //Arrow Hover Fade
-                this.setHoverFadeVisible(false);
+                this.setHoverHighlightVisible(false);
                 DrawUtil.drawArrow(graphics, getPos(), (float) getSize().getY(), new Color(255,255,255,(int)hoverFade),false);
             }
         };
 
-        setHoverFadeVisible(false);
+        setHoverHighlightVisible(false);
         addToggles(category);
     }
 
@@ -68,7 +68,7 @@ public class ModuleMenu extends GuiWidget {
         graphics.pose().translate(-(1 - tempScaling) * 10,0,0);
 
         //Window Head
-        setHoverFadeVisible(false);
+        setHoverHighlightVisible(false);
         mainButton.draw(graphics,mousePos);
     }
 

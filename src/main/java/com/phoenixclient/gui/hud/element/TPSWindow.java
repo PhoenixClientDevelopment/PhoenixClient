@@ -22,7 +22,7 @@ public class TPSWindow extends GuiWindow {
     private int tps;
 
     public TPSWindow(Screen screen, Vector pos) {
-        super(screen, "TPS", pos, Vector.Null());
+        super(screen, "TPS", pos, Vector.NULL());
         this.label = new SettingGUI<>(this, "Label","Show the label",true);
         addSettings(label);
         packetEvent.subscribe();

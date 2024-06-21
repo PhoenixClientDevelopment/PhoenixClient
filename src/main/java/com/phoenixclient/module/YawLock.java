@@ -62,9 +62,9 @@ public class YawLock extends Module {
                     yaw = Math.round((MC.player.getRotationVector().y + 1.f) / (360 / segments)) * (360 / segments);
                 }
                 case "Coordinate" -> {
-                    Vector coordinate = new Vector(Integer.parseInt(customX.get()), Integer.parseInt(customZ.get()));
-                    Vector pos = new Vector(MC.player.getEyePosition().x(), MC.player.getEyePosition().z());
-                    yaw = (float) pos.getSubtracted(coordinate).getYaw().getDegrees() + 90;
+                    Vector coordinate = new Vector(Integer.parseInt(customX.get()), MC.player.getY(),Integer.parseInt(customZ.get()));
+                    Vector pos = new Vector(MC.player.position());
+                    yaw = (float) coordinate.getSubtracted(pos).getUnitVector().getYaw().getDegrees();
                 }
                 case "Custom" -> yaw = custom.get().floatValue();
             }

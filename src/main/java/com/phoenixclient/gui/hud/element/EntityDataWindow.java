@@ -35,7 +35,7 @@ public class EntityDataWindow extends GuiWindow {
     private Entity prevHoveredEntity;
 
     public EntityDataWindow(Screen screen, Vector pos) {
-        super(screen, "EntityData", pos, Vector.Null());
+        super(screen, "EntityData", pos, Vector.NULL());
         this.label = new SettingGUI<>(this,"Label","Show the label",true);
         addSettings(label);
     }

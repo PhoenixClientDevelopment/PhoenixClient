@@ -23,7 +23,6 @@ public class SettingsWindow extends GuiWindow {
         super(screen, parentWindow.getTitle() + "_settings", pos, new Vector(100, 20));
         this.parentWindow = parentWindow;
         this.closeButton = new GuiButton(getScreen(), "X", getPos(), getSize(), new Color(200, 0, 0), (args) -> {
-            this.setDrawn(false);
             parentWindow.setSettingsOpen(false);
         });
 
@@ -46,7 +45,7 @@ public class SettingsWindow extends GuiWindow {
             if (!widget.shouldDrawSetting()) continue;
             backgroundHeight += 18;
         }
-        DrawUtil.drawRectangleRound(graphics,getPos().getAdded(0,getSize().getY()),new Vector(getSize().getX(),backgroundHeight),new Color(bgc.getRed(), bgc.getGreen(), bgc.getBlue(), bgc.getAlpha() / 2));
+        DrawUtil.drawRectangleRound(graphics,getPos().getAdded(0,getSize().getY()),new Vector(getSize().getX(),backgroundHeight),new Color(BGC.getRed(), BGC.getGreen(), BGC.getBlue(), BGC.getAlpha() / 2));
 
         drawWidgets(graphics, mousePos);
 

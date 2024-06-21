@@ -106,9 +106,9 @@ public class Key {
     public static Key KEY_RIGHT = new Key(GLFW.GLFW_KEY_RIGHT);
 
 
-    public static int ACTION_PRESS = 1;
-    public static int ACTION_RELEASE = 0;
-    public static int ACTION_HOLD = 2;
+    public static final int ACTION_PRESS = 1;
+    public static final int ACTION_RELEASE = 0;
+    public static final int ACTION_HOLD = 2;
 
 
     public static final EventAction KEY_PRESS_ACTION = new EventAction(Event.EVENT_KEY_PRESS, () -> {

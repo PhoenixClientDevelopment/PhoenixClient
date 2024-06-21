@@ -1,5 +1,6 @@
 package com.phoenixclient.gui.element;
 
+import com.phoenixclient.util.input.Mouse;
 import com.phoenixclient.util.math.Vector;
 import com.phoenixclient.util.render.DrawUtil;
 import com.phoenixclient.util.setting.SettingGUI;
@@ -18,7 +19,7 @@ public class GuiToggle extends GuiWidget {
     private Color color;
 
     public GuiToggle(Screen screen, String title, SettingGUI<Boolean> setting, Vector pos, Vector size, Color color) {
-        super(screen,pos,size,true);
+        super(screen,pos,size);
         this.setting = setting;
         this.title = title;
         this.color = color;
@@ -32,7 +33,7 @@ public class GuiToggle extends GuiWidget {
     @Override
     protected void drawWidget(GuiGraphics graphics, Vector mousePos) {
         //Draw Background
-        DrawUtil.drawRectangleRound(graphics, getPos(), getSize(), bgc);
+        DrawUtil.drawRectangleRound(graphics, getPos(), getSize(), BGC);
 
         //Draw Fill
         DrawUtil.drawRectangleRound(graphics, getPos(), getSize(),new Color(getColor().getRed(),getColor().getGreen(),getColor().getBlue(),(int) toggleFade));
@@ -46,7 +47,7 @@ public class GuiToggle extends GuiWidget {
 
     @Override
     public void mousePressed(int button, int state, Vector mousePos) {
-        if (button == 0 && state == 1 && isMouseOver()) {
+        if (button == Mouse.BUTTON_LEFT.getId() && state == Mouse.ACTION_CLICK && isMouseOver()) {
             getSetting().set(!getSetting().get());
         }
     }

@@ -69,7 +69,7 @@ public class InventoryWindow extends GuiWindow {
         ResourceLocation GUI_TEXTURE = new ResourceLocation("textures/gui/container/shulker_box.png");
         RenderSystem.enableBlend();
         DrawUtil.drawTexturedRect(graphics,GUI_TEXTURE,pos.getAdded(new Vector(0,74)),new Vector(176,6),new Vector(0,160), new Vector(256,256));
-        DrawUtil.drawTexturedRect(graphics,GUI_TEXTURE,pos,new Vector(176,74),Vector.Null(), new Vector(256,256));
+        DrawUtil.drawTexturedRect(graphics,GUI_TEXTURE,pos,new Vector(176,74),Vector.NULL(), new Vector(256,256));
         DrawUtil.drawText(graphics, title, new Vector(x + 7, y + 5), new Color(175, 175, 175, 220));
         RenderSystem.disableBlend();
     }

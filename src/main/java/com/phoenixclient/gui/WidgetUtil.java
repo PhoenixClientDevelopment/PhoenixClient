@@ -22,14 +22,14 @@ public class WidgetUtil {
         ArrayList<GuiWidget> widgetList = new ArrayList<>();
         for (SettingGUI setting : settings) {
             if (!setting.getModes().isEmpty()) {
-                widgetList.add(new GuiModeCycle<>(screen, setting, Vector.Null(), Vector.Null(), ColorUtil.getTheme().getWidgetColor()));
+                widgetList.add(new GuiModeCycle<>(screen, setting, Vector.NULL(), Vector.NULL(), ColorUtil.getTheme().getWidgetColor()));
                 continue;
             }
             switch (setting.getType()) {
-                case "boolean" -> widgetList.add(new GuiToggle(screen, setting, Vector.Null(), Vector.Null(), ColorUtil.getTheme().getWidgetColor()));
-                case "integer" -> widgetList.add(new GuiSlider<Integer>(screen, setting, Vector.Null(), Vector.Null(), ColorUtil.getTheme().getWidgetColor()));
-                case "double", "float" -> widgetList.add(new GuiSlider<Double>(screen, setting, Vector.Null(), Vector.Null(), ColorUtil.getTheme().getWidgetColor()));
-                case "string" -> widgetList.add(new GuiTextField(screen, setting, Vector.Null(), Vector.Null()));
+                case "boolean" -> widgetList.add(new GuiToggle(screen, setting, Vector.NULL(), Vector.NULL(), ColorUtil.getTheme().getWidgetColor()));
+                case "integer" -> widgetList.add(new GuiSlider<Integer>(screen, setting, Vector.NULL(), Vector.NULL(), ColorUtil.getTheme().getWidgetColor()));
+                case "double", "float" -> widgetList.add(new GuiSlider<Double>(screen, setting, Vector.NULL(), Vector.NULL(), ColorUtil.getTheme().getWidgetColor()));
+                case "string" -> widgetList.add(new GuiTextField(screen, setting, Vector.NULL(), Vector.NULL()));
             }
         }
 

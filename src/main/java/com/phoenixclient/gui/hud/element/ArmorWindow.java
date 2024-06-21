@@ -34,7 +34,7 @@ public class ArmorWindow extends GuiWindow {
         graphics.pose().scale(scale,scale,1f);
 
         Vector texSize = new Vector(16,16);
-        Vector addVec = Vector.Null();
+        Vector addVec = Vector.NULL();
         switch (mode.get()) {
             case "Horizontal" -> {
                 setSize(new Vector(65,16).getMultiplied(scale));

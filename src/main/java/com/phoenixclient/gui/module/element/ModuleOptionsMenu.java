@@ -38,13 +38,13 @@ public class ModuleOptionsMenu extends GuiWidget {
     private final OnChange<Module> onChange = new OnChange<>();
 
     public ModuleOptionsMenu(Screen screen, Vector pos) {
-        super(screen, pos, new Vector(120,30), true);
+        super(screen, pos, new Vector(120,30));
         this.mainButton = new GuiButton(getScreen(),"", getPos(),getSize(), ColorUtil.getTheme().getBaseColor(),(f) -> {
             retract = true;
             nullify = true;
-            setHoverFadeVisible(false);
+            setHoverHighlightVisible(false);
         });
-        this.keyBindSelector = new ModuleKeyBindSelector(getScreen(),module,Vector.Null(),new Vector(getSize().getX() - 4,14), Color.BLACK);
+        this.keyBindSelector = new ModuleKeyBindSelector(getScreen(),module,Vector.NULL(),new Vector(getSize().getX() - 4,14), Color.BLACK);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ModuleOptionsMenu extends GuiWidget {
                     if (!widget.shouldDrawSetting()) continue;
                     backgroundHeight += 16;
                 }
-                DrawUtil.drawRectangleRound(graphics, getPos().getAdded(0, getSize().getY()), new Vector(getSize().getX(), backgroundHeight), new Color(bgc.getRed(), bgc.getGreen(), bgc.getBlue(), bgc.getAlpha() / 2));
+                DrawUtil.drawRectangleRound(graphics, getPos().getAdded(0, getSize().getY()), new Vector(getSize().getX(), backgroundHeight), new Color(BGC.getRed(), BGC.getGreen(), BGC.getBlue(), BGC.getAlpha() / 2));
 
                 drawWidgets(graphics, mousePos);
                 keyBindSelector.setPos(getPos().getAdded(2,getSize().getY() + backgroundHeight - keyBindSelector.getSize().getY() - 2));
@@ -141,7 +141,7 @@ public class ModuleOptionsMenu extends GuiWidget {
         int yOffset = 1;
         for (GuiWidget widget : widgetList) {
             if (!widget.shouldDrawSetting()) continue;
-            double ySize = 20;
+            int ySize = 20;
             widget.setPos(getPos().getAdded(new Vector(2, getSize().getY())));
             widget.setPos(widget.getPos().getAdded(new Vector(0, yOffset)));
             widget.setSize(new Vector(getSize().getX() - 4,ySize - 6));
@@ -172,7 +172,7 @@ public class ModuleOptionsMenu extends GuiWidget {
 
     public void queueSetModule(Module module) {
         this.queueModule = module;
-        setHoverFadeVisible(true);
+        setHoverHighlightVisible(true);
     }
 
     public void setScaling(float scaling) {

@@ -23,7 +23,7 @@ public class GuiTextField extends GuiWidget {
 
 
     private GuiTextField(Screen screen, String title, SettingGUI<String> setting, Vector pos, Vector size) {
-        super(screen, pos, size, true);
+        super(screen, pos, size);
         this.setting = setting;
         this.title = title;
 
@@ -37,7 +37,7 @@ public class GuiTextField extends GuiWidget {
     @Override
     protected void drawWidget(GuiGraphics graphics, Vector mousePos) {
         //Draw Background
-        DrawUtil.drawRectangleRound(graphics,getPos(), getSize(), bgc);
+        DrawUtil.drawRectangleRound(graphics,getPos(), getSize(), BGC);
 
         //Draw Underline
         DrawUtil.drawRectangle(graphics,
@@ -49,7 +49,7 @@ public class GuiTextField extends GuiWidget {
         String msg = getSetting().get();
 
         //Draw Blinking Cursor
-        if (isTyping()) {
+        if (typing) {
             cursorTimer.start();
             if (cursorTimer.hasTimePassedS(1)) cursorTimer.restart();
             int alpha = cursorTimer.hasTimePassedMS(500) ? 255 : 0;
@@ -62,37 +62,36 @@ public class GuiTextField extends GuiWidget {
         //Draw Text
         double scale = 1;
         if (DrawUtil.getTextWidth(title.concat(msg)) + 2 > getSize().getX()) scale = getSize().getX()/(DrawUtil.getTextWidth(title.concat(msg)) + 2);
-        DrawUtil.drawDualColorText(graphics,title,msg,getPos().getAdded(new Vector(2, 1 + getSize().getY() / 2 - DrawUtil.getTextHeight() / 2)), Color.WHITE,isTyping() ? Color.GREEN : Color.WHITE,true,1,(float)scale);
+        DrawUtil.drawDualColorText(graphics,title,msg,getPos().getAdded(new Vector(2, 1 + getSize().getY() / 2 - DrawUtil.getTextHeight() / 2)), Color.WHITE,typing ? Color.GREEN : Color.WHITE,true,1,(float)scale);
     }
 
     @Override
     public void mousePressed(int button, int state, Vector mousePos) {
         if (button == 0 && state == 1) {
-            if (isTyping()) setTyping(false);
-            if (isMouseOver()) setTyping(true);
+            if (typing) typing = false;
+            if (isMouseOver()) typing = true;
         }
     }
 
     @Override
     public void keyPressed(int key, int scancode, int modifiers) {
         String buttonText = getSetting().get();
-        try {
-            if (isTyping()) {
-                if (key == GLFW.GLFW_KEY_ESCAPE || key == GLFW.GLFW_KEY_ENTER) {
-                    setTyping(false);
-                } else if (key == GLFW.GLFW_KEY_BACKSPACE) {
-                    if (buttonText.length() > 0) buttonText = buttonText.substring(0, buttonText.length() - 1);
-                } else if (key == GLFW.GLFW_KEY_SPACE) {
-                    if (isValidPress(getSetting(), key)) buttonText = buttonText + " ";
-                } else if (!GLFW.glfwGetKeyName(key, -1).equals("null")) {
-                    if (GLFW.glfwGetKey(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) == 1 || GLFW.glfwGetKey(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_RIGHT_SHIFT) == 1) {
-                        buttonText = buttonText + GLFW.glfwGetKeyName(key, -1).toUpperCase();
-                    } else {
-                        if (isValidPress(getSetting(), key)) buttonText = buttonText + GLFW.glfwGetKeyName(key, -1);
-                    }
-                }
+        if (!typing) return;
+        switch (key) {
+            case GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_KEY_ENTER -> typing = false;
+
+            case GLFW.GLFW_KEY_BACKSPACE -> {
+                if (!buttonText.isEmpty()) buttonText = buttonText.substring(0, buttonText.length() - 1);
             }
-        } catch (Exception ignored) {
+
+            case GLFW.GLFW_KEY_SPACE -> {
+                if (isValidPress(getSetting(), key)) buttonText = buttonText + " ";
+            }
+
+            default -> {
+                if (GLFW.glfwGetKeyName(key, -1) == null || GLFW.glfwGetKeyName(key, -1).equals("null")) break;
+                if (isValidPress(getSetting(), key)) buttonText = buttonText + GLFW.glfwGetKeyName(key, -1);
+            }
         }
         getSetting().set(buttonText);
     }
@@ -124,15 +123,6 @@ public class GuiTextField extends GuiWidget {
                     key == GLFW.GLFW_KEY_KP_9;
         }
         return true;
-    }
-
-    public void setTyping(boolean typing) {
-        this.typing = typing;
-    }
-
-
-    public boolean isTyping() {
-        return typing;
     }
 
     public String getTitle() {

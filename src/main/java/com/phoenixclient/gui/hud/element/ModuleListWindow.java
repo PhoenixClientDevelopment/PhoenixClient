@@ -21,7 +21,7 @@ public class ModuleListWindow extends GuiWindow {
     private final SettingGUI<Double> scale;
 
     public ModuleListWindow(Screen screen, Vector pos) {
-        super(screen, "ModuleList", pos, Vector.Null());
+        super(screen, "ModuleList", pos, Vector.NULL());
         this.label = new SettingGUI<>(this,"Label","Show the label",true);
         this.scale = new SettingGUI<>(this,"Scale","The scale of the list",1d,.25d,1d,.05d);
         addSettings(label,scale);

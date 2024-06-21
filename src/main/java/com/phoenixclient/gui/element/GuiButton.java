@@ -1,10 +1,12 @@
 package com.phoenixclient.gui.element;
 
+import com.phoenixclient.util.input.Mouse;
 import com.phoenixclient.util.math.MathUtil;
 import com.phoenixclient.util.math.Vector;
 import com.phoenixclient.util.render.DrawUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
@@ -16,7 +18,7 @@ public class GuiButton extends GuiWidget {
     private Color color;
 
     public GuiButton(Screen screen, String title, Vector pos, Vector size, Color color, ActionParams action) {
-        super(screen, pos, size,true);
+        super(screen, pos, size);
         this.title = title;
         this.action = action;
         this.color = color;
@@ -37,17 +39,17 @@ public class GuiButton extends GuiWidget {
 
     @Override
     public void mousePressed(int button, int state, Vector mousePos) {
-       if (state == 1 && isMouseOver() && button == 0) {
-           pressing = true;
-       }
-       if (state == 0 && button == 0) {
-           pressing = false;
-           try {
-               if (isMouseOver()) getAction().run(mousePos, button);
-           } catch (Exception e) {
-               e.printStackTrace();
-           }
-       }
+        if (button != 0) return;
+        switch (state) {
+            case Mouse.ACTION_CLICK -> {
+                if (isMouseOver())
+                    pressing = true;
+            }
+            case Mouse.ACTION_RELEASE -> {
+                pressing = false;
+                if (isMouseOver()) getAction().run(mousePos, button);
+            }
+        }
     }
 
     @Override

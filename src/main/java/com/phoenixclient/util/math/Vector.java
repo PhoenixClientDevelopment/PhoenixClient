@@ -12,7 +12,7 @@ public class Vector {
     private static final Vector J = new Vector(0, 1, 0);
     private static final Vector K = new Vector(0, 0, 1);
 
-    public static Vector Null() {
+    public static Vector NULL() {
         return NULL.clone();
     }
 

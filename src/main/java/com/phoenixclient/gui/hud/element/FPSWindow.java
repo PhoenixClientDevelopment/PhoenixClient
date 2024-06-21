@@ -15,7 +15,7 @@ public class FPSWindow extends GuiWindow {
     private final SettingGUI<Boolean> label;
 
     public FPSWindow(Screen screen, Vector pos) {
-        super(screen, "FPS", pos, Vector.Null());
+        super(screen, "FPS", pos, Vector.NULL());
         this.label = new SettingGUI<>(this, "Label","Show the label",true);
         addSettings(label);
     }
