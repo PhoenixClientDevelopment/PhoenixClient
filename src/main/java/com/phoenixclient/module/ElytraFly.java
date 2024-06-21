@@ -15,7 +15,8 @@ public class ElytraFly extends Module {
             this,
             "Speed",
             "Speed of ElytaFly",
-            1d,.1,2,.1);
+            1d)
+            .setSliderData(.1,2,.1);
 
     public ElytraFly() {
         super("ElytraFly", "Allows control of the Elytra", Category.MOTION, false, -1);

@@ -23,7 +23,7 @@ public class ModuleListWindow extends GuiWindow {
     public ModuleListWindow(Screen screen, Vector pos) {
         super(screen, "ModuleList", pos, Vector.NULL());
         this.label = new SettingGUI<>(this,"Label","Show the label",true);
-        this.scale = new SettingGUI<>(this,"Scale","The scale of the list",1d,.25d,1d,.05d);
+        this.scale = new SettingGUI<>(this,"Scale","The scale of the list",1d).setSliderData(.25d,1d,.05d);
         addSettings(label,scale);
     }
 

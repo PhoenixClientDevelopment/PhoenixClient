@@ -23,8 +23,8 @@ public class PacketInflowWindow extends GuiWindow {
 
     public PacketInflowWindow(Screen screen, Vector pos) {
         super(screen, "Packet Inflow", pos, new Vector(72,0));
-        this.mode = new SettingGUI<>(this,"Mode","Type of packets to log","Inflow","Inflow","Outflow");
-        this.history = new SettingGUI<>(this,"History","Range of history to appear",20,1,200,1);
+        this.mode = new SettingGUI<>(this,"Mode","Type of packets to log","Inflow").setModeData("Inflow","Outflow");
+        this.history = new SettingGUI<>(this,"History","Range of history to appear",20).setSliderData(1,200,1);
         addSettings(mode,history);
         packetEvent.subscribe();
     }

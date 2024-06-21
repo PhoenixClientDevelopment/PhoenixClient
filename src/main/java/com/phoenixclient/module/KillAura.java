@@ -10,7 +10,8 @@ public class KillAura extends Module {
             this,
             "Range",
             "Attack Range of Kill Aura",
-            4.5d,.5,5,.5);
+            4.5d)
+            .setSliderData(.5,5,.5);
 
     public KillAura() {
         super("KillAura", "Automatically attacks entities around you", Category.COMBAT,false, -1);

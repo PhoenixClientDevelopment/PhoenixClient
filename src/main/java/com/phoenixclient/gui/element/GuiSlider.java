@@ -93,7 +93,6 @@ public class GuiSlider<T extends Number> extends GuiWidget {
 
         T value = getSetting().getType().equals("integer") ? (T) (Integer) (int) val : (T) (Double) val;
         getSetting().set(value);
-
     }
 
 

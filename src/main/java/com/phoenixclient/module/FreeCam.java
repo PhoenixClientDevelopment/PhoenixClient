@@ -3,13 +3,17 @@ package com.phoenixclient.module;
 import com.phoenixclient.event.Event;
 import com.phoenixclient.event.EventAction;
 import com.phoenixclient.util.actions.OnChange;
+import com.phoenixclient.util.math.MathUtil;
 import com.phoenixclient.util.math.Vector;
 import com.phoenixclient.util.setting.SettingGUI;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.*;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.item.BoatItem;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.GameType;
 
 import java.util.UUID;
@@ -22,7 +26,8 @@ public class FreeCam extends Module {
             this,
             "Mode",
             "Mode of FreeCam",
-            "Ghost", "Ghost", "Interact");
+            "Ghost")
+            .setModeData("Ghost", "Interact");
 
     private final OnChange<Vector> onChangeView = new OnChange<>();
     private final OnChange<String> onChangeMode = new OnChange<>();
@@ -37,6 +42,8 @@ public class FreeCam extends Module {
         addSettings(mode);
     }
 
+    double swingTime = 3;
+
     private final EventAction onUpdate = new EventAction(Event.EVENT_PLAYER_UPDATE, () -> {
         //Update Dummy Player Attributes
         if (dummyPlayer != null) {
@@ -47,6 +54,7 @@ public class FreeCam extends Module {
             dummyPlayer.setItemSlot(EquipmentSlot.FEET, MC.player.getItemBySlot(EquipmentSlot.FEET));
             dummyPlayer.setItemSlot(EquipmentSlot.MAINHAND, MC.player.getItemBySlot(EquipmentSlot.MAINHAND));
             dummyPlayer.setItemSlot(EquipmentSlot.OFFHAND, MC.player.getItemBySlot(EquipmentSlot.OFFHAND));
+            dummyPlayer.calculateEntityAnimation(true);
             switch (mode.get()) {
                 case "Ghost" -> {
                     //Nothing Extra
@@ -54,10 +62,18 @@ public class FreeCam extends Module {
                 case "Interact" -> {
                     MC.player.getAbilities().flying = true;
 
-                    if (MC.player.swinging) {
-                        dummyPlayer.swing(dummyPlayer.swingingArm);
-                        //TODO: Have the player shield block & swing when the player does
+                    //Swing Dummy Player Hand
+                    if (MC.player.swinging) dummyPlayer.swing(InteractionHand.MAIN_HAND);
+                    if (dummyPlayer.swinging) {
+                        swingTime += .125;
+                        if (swingTime >= 1) {
+                            swingTime = 0;
+                            dummyPlayer.swinging = false;
+                        }
+                    } else {
+                        swingTime = 0;
                     }
+                    dummyPlayer.attackAnim = (float)swingTime;
 
                     //look at the hit result location
                     Vector lookVec = new Vector(MC.hitResult.getLocation()).getSubtracted(new Vector(dummyPlayer.getEyePosition()));

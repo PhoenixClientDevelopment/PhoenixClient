@@ -21,8 +21,8 @@ public class InventoryWindow extends GuiWindow {
 
     public InventoryWindow(Screen screen, Vector pos) {
         super(screen,"Inventory" ,pos, new Vector(178,82));
-        transparency = new SettingGUI<>(this,"Transparency","The transparency of the inventory window",125,0,255,1);
-        scale = new SettingGUI<>(this,"Scale","The scale of the inventory window",1d,.25d,1d,.05d);
+        transparency = new SettingGUI<>(this,"Transparency","The transparency of the inventory window",125).setSliderData(0,255,1);
+        scale = new SettingGUI<>(this,"Scale","The scale of the inventory window",1d).setSliderData(.25d,1d,.05d);
         addSettings(transparency,scale);
     }
 

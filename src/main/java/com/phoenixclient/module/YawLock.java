@@ -14,7 +14,8 @@ public class YawLock extends Module {
             this,
             "Mode",
             "Mode of YAW",
-            "Ordinal","Cardinal","Ordinal", "Coordinate", "Custom");
+            "Ordinal")
+            .setModeData("Cardinal","Ordinal", "Coordinate", "Custom");
 
     private final SettingGUI<Boolean> doOnce = new SettingGUI<>(
             this,
@@ -26,19 +27,25 @@ public class YawLock extends Module {
             this,
             "Angle",
             "Custom Angle for Custom Mode",
-            0d,-180,180,1).setSettingDependency(mode,"Custom");
+            0d)
+            .setSliderData(-180,180,1)
+            .setSettingDependency(mode,"Custom");
 
     private final SettingGUI<String> customX = new SettingGUI<>(
             this,
             "Custom X",
             "Custom X coordinate for Coordinate Mode",
-            "0",true).setSettingDependency(mode,"Coordinate");
+            "0")
+            .setTextData(true)
+            .setSettingDependency(mode,"Coordinate");
 
     private final SettingGUI<String> customZ = new SettingGUI<>(
             this,
             "Custom Z",
             "Custom Z coordinate for Coordinate Mode",
-            "0",true).setSettingDependency(mode,"Coordinate");
+            "0")
+            .setTextData(true)
+            .setSettingDependency(mode,"Coordinate");
 
 
     public YawLock() {
@@ -62,7 +69,7 @@ public class YawLock extends Module {
                     yaw = Math.round((MC.player.getRotationVector().y + 1.f) / (360 / segments)) * (360 / segments);
                 }
                 case "Coordinate" -> {
-                    Vector coordinate = new Vector(Integer.parseInt(customX.get()), MC.player.getY(),Integer.parseInt(customZ.get()));
+                    Vector coordinate = new Vector(Double.parseDouble(customX.get()), MC.player.getY(),Double.parseDouble(customZ.get()));
                     Vector pos = new Vector(MC.player.position());
                     yaw = (float) coordinate.getSubtracted(pos).getUnitVector().getYaw().getDegrees();
                 }
@@ -71,8 +78,7 @@ public class YawLock extends Module {
             MC.player.setYRot(yaw);
             MC.player.setYHeadRot(yaw);
 
-            if (MC.player.getVehicle() != null && MC.player.getVehicle() instanceof Boat)
-                MC.player.getVehicle().setYRot(yaw);
+            if (MC.player.getVehicle() != null) MC.player.getVehicle().setYRot(yaw);
         }
 
         if (doOnce.get()) disable();

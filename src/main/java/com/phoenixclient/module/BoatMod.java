@@ -14,19 +14,24 @@ public class BoatMod extends Module {
             this,
             "Mode",
             "Mode of BoatMod",
-            "Jump","Jump","Fly");
+            "Jump")
+            .setModeData("Jump","Fly");
 
     private final SettingGUI<Double> power = new SettingGUI<>(
             this,
             "Power",
             "Jump Power",
-            1d,.1,2,.1).setSettingDependency(mode,"Jump");
+            1d)
+            .setSliderData(.1,2,.1)
+            .setSettingDependency(mode,"Jump");
 
     private final SettingGUI<Double> speed = new SettingGUI<>(
             this,
             "Speed",
             "Fly Speed",
-            1d,.1,2,.1).setSettingDependency(mode,"Fly");
+            1d)
+            .setSliderData(.1,2,.1)
+            .setSettingDependency(mode,"Fly");
 
     private final SettingGUI<Boolean> yawlock = new SettingGUI<>(
             this,

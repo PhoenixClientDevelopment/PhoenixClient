@@ -20,8 +20,8 @@ public class ArmorWindow extends GuiWindow {
 
     public ArmorWindow(Screen screen, Vector pos) {
         super(screen, "Armor",pos, new Vector(65,15));
-        this.mode = new SettingGUI<>(this,"Mode","The direction the armor is rendered","Horizontal","Horizontal","Vertical");
-        this.scale = new SettingGUI<>(this,"Scale","The scale of the armor",1d,.25d,1d,.05d);
+        this.mode = new SettingGUI<>(this,"Mode","The direction the armor is rendered","Horizontal").setModeData("Horizontal","Vertical");
+        this.scale = new SettingGUI<>(this,"Scale","The scale of the armor",1d).setSliderData(.25d,1d,.05d);
         addSettings(mode,scale);
     }
 

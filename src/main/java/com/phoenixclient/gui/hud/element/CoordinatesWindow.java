@@ -23,8 +23,8 @@ public class CoordinatesWindow extends GuiWindow {
         super(screen, "Coordinates", pos, Vector.NULL());
         this.label = new SettingGUI<>(this, "Label", "Show the label", true);
         this.showNether = new SettingGUI<>(this, "Nether", "Shows the nether coordinates conversion", false);
-        this.coordinatesMode = new SettingGUI<>(this,"Mode","Mode of coordinates","Horizontal","Horizontal","Vertical");
-        this.coordinatesSide = new SettingGUI<>(this,"Side","Side of coordinates","Left","Left","Right","Center");
+        this.coordinatesMode = new SettingGUI<>(this,"Mode","Mode of coordinates","Horizontal").setModeData("Horizontal","Vertical");
+        this.coordinatesSide = new SettingGUI<>(this,"Side","Side of coordinates","Left").setModeData("Left","Right","Center");
         addSettings(label,showNether,coordinatesMode,coordinatesSide);
     }
 

@@ -57,7 +57,7 @@ public class GuiManager {
         //Draw Starting Hint
         if (hintFade > 0) {
             hintFade -= .25;
-            String hint = "Press " + "RShift" + " to open the module menu!";
+            String hint = "Press " + "RSHIFT" + " to open the module menu!";
             DrawUtil.drawText(graphics, hint, new Vector((double) MC.getWindow().getGuiScaledWidth() / 2 - DrawUtil.getTextWidth(hint) / 2, 2), new Color(255, 255, 255, MathUtil.getBoundValue(hintFade, 0, 255).intValue()));
         }
 

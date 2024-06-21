@@ -19,7 +19,7 @@ public class DirectionWindow extends GuiWindow {
     public DirectionWindow(Screen screen, Vector pos) {
         super(screen, "Direction", pos, new Vector(60, 13));
         this.label = new SettingGUI<>(this, "Label","Show the label",true);
-        this.mode = new SettingGUI<>(this,"Mode","Mode of Direction","All","All","Compass","Coordinate");
+        this.mode = new SettingGUI<>(this,"Mode","Mode of Direction","All").setModeData("All","Compass","Coordinate");
         addSettings(label,mode);
     }
 

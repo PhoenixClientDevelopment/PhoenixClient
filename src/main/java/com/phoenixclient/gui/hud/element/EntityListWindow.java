@@ -24,8 +24,8 @@ public class EntityListWindow extends GuiWindow {
     public EntityListWindow(Screen screen, Vector pos) {
         super(screen, "EntityList", pos, Vector.NULL());
         this.label = new SettingGUI<>(this,"Label","Show the label",true);
-        this.range = new SettingGUI<>(this,"Range","Block range away from player of entities",64,1,200,1);
-        this.scale = new SettingGUI<>(this,"Scale","The scale of the list",1d,.25d,1d,.05d);
+        this.range = new SettingGUI<>(this,"Range","Block range away from player of entities",64).setSliderData(1,200,1);
+        this.scale = new SettingGUI<>(this,"Scale","The scale of the list",1d).setSliderData(.25d,1d,.05d);
         addSettings(label,range,scale);
     }
 

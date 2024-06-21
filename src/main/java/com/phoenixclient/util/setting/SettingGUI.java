@@ -18,45 +18,33 @@ public class SettingGUI<T> extends Setting<T> {
 
     private T[] modes;
 
-    private final boolean numbersOnly;
+    private boolean numbersOnly;
 
     private Dependency<?> dependency;
 
-    public SettingGUI(IParentGUI parent, String name, String description, T defaultValue, double min, double max, double step) {
+    public SettingGUI(IParentGUI parent, String name, String description, T defaultValue) {
         super(PhoenixClient.getSettingManager(), parent.getTitle() + "_" + name, defaultValue);
         this.parent = parent;
         this.name = name;
         this.description = description;
+    }
 
+    public SettingGUI<T> setSliderData(double min, double max, double step) {
         this.min = min;
         this.max = max;
         this.step = step;
-
-        this.numbersOnly = false;
-        this.dependency = null;
+        return this;
     }
 
     @SafeVarargs
-    public SettingGUI(IParentGUI parent, String name, String description, T defaultValue, T... modes) {
-        super(PhoenixClient.getSettingManager(), parent.getTitle() + "_" + name, defaultValue);
-        this.parent = parent;
-        this.name = name;
-        this.description = description;
-
+    public final SettingGUI<T> setModeData(T... modes) {
         this.modes = modes;
-
-        this.numbersOnly = false;
-        this.dependency = null;
+        return this;
     }
 
-    public SettingGUI(IParentGUI parent, String name, String description, T defaultValue, boolean numbersOnly) {
-        super(PhoenixClient.getSettingManager(), parent.getTitle() + "_" + name, defaultValue);
-        this.parent = parent;
-        this.name = name;
-        this.description = description;
-
+    public SettingGUI<T> setTextData(boolean numbersOnly) {
         this.numbersOnly = numbersOnly;
-        this.dependency = null;
+        return this;
     }
 
     public <E> SettingGUI<T> setSettingDependency(SettingGUI<E> setting, E value) {

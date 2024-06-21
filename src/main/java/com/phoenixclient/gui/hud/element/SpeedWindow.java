@@ -20,7 +20,7 @@ public class SpeedWindow extends GuiWindow {
     public SpeedWindow(Screen screen, Vector pos) {
         super(screen, "Speed", pos, Vector.NULL());
         this.label = new SettingGUI<>(this, "Label","Show the label",true);
-        this.mode = new SettingGUI<>(this,"Mode","Detects whether speed is in XY or XYZ","2D","2D","3D");
+        this.mode = new SettingGUI<>(this,"Mode","Detects whether speed is in XY or XYZ","2D").setModeData("2D","3D");
         addSettings(label,mode);
     }
 

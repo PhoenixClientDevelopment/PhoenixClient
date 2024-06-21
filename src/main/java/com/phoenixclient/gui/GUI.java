@@ -95,7 +95,6 @@ public class GUI extends Screen {
         else hintFade -= 3;
 
         DrawUtil.drawText(guiGraphics,hint,new Vector((double) MC.getWindow().getGuiScaledWidth() / 2 - DrawUtil.getTextWidth(hint) / 2, MC.getWindow().getGuiScaledHeight() - 14), new Color(255,255,255, MathUtil.getBoundValue(hintFade,0,255).intValue()));
-
     }
 
     public void toggleOpen() {
@@ -105,13 +104,11 @@ public class GUI extends Screen {
         if (this == PhoenixClient.getGuiManager().getHudGui()) isOtherActive = MC.screen == PhoenixClient.getGuiManager().getModuleGui();
 
         if (MC.screen == null || isOtherActive) {
-
             for (GuiWidget widget : getGuiElementList()) {
                 if (widget instanceof ModuleMenu sw) sw.setScaling(.1f);
                 if (widget instanceof ModuleOptionsMenu mow) mow.setScaling(0f);
             }
             MC.setScreen(this);
-
         } else if (active) {
             PhoenixClient.getSettingManager().saveAll(); //Whenever the GUI closes, save all settings
             Minecraft.getInstance().setScreen(null);

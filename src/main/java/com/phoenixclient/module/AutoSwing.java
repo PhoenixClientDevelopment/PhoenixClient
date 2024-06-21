@@ -20,13 +20,15 @@ public class AutoSwing extends Module {
             this,
             "Lower Bound",
             "Lowest possible click speed",
-            15, 10, 17, 1);
+            15)
+            .setSliderData( 10, 17, 1);
 
     private final SettingGUI<Integer> upperBound = new SettingGUI<>(
             this,
             "Upper Bound",
             "Highest possible click speed",
-            20, 17, 23, 1);
+            20)
+            .setSliderData( 17, 23, 1);
 
     private final SettingGUI<Boolean> accelerate = new SettingGUI<>(
             this,
