@@ -41,7 +41,11 @@ public class PhoenixClient implements ModInitializer {
                 new AutoWalk(),
                 new AutoSprint(),
                 new FastBridge(),
-                new FreeCam()
+                new FreeCam(),
+                new AntiRender(),
+                new Step(),
+                //new Speed(),
+                new ShulkerView()
         );
 
         getGuiManager().instantiateHUDGUI();

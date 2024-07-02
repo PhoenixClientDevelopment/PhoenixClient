@@ -1,4 +1,4 @@
-package com.phoenixclient.mixin;
+package com.phoenixclient.mixin.mixins;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;

@@ -23,7 +23,7 @@ public class BoatMod extends Module {
             "Jump Power",
             1d)
             .setSliderData(.1,2,.1)
-            .setSettingDependency(mode,"Jump");
+            .setDependency(mode,"Jump");
 
     private final SettingGUI<Double> speed = new SettingGUI<>(
             this,
@@ -31,7 +31,7 @@ public class BoatMod extends Module {
             "Fly Speed",
             1d)
             .setSliderData(.1,2,.1)
-            .setSettingDependency(mode,"Fly");
+            .setDependency(mode,"Fly");
 
     private final SettingGUI<Boolean> yawlock = new SettingGUI<>(
             this,

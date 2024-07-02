@@ -12,6 +12,8 @@ import net.minecraft.client.gui.screens.Screen;
 
 import java.awt.*;
 
+//TODO: Make buttons smaller once more modules are added
+
 public class ModuleToggle extends GuiWidget {
 
     private final String title;

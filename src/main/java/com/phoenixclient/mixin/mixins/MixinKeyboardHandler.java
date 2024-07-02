@@ -1,4 +1,4 @@
-package com.phoenixclient.mixin;
+package com.phoenixclient.mixin.mixins;
 
 import com.phoenixclient.event.Event;
 import net.minecraft.client.KeyboardHandler;

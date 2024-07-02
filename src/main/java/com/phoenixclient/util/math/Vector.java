@@ -217,7 +217,7 @@ public class Vector {
     }
 
     public BlockPos getBlockPos() {
-        return new BlockPos((int)getX(),(int)getY(),(int)getZ());
+        return BlockPos.containing(getVec3());
     }
 
 

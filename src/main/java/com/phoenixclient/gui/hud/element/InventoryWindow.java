@@ -7,6 +7,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 
 import java.awt.*;
@@ -39,20 +40,19 @@ public class InventoryWindow extends GuiWindow {
         renderChestInventory(graphics,"Inventory",adjustedPos);
 
         //graphics.setColor(1,1,1,transparency.get() / 255f);
-        renderInventoryItems(graphics, adjustedPos);
+        renderInventoryItems(graphics, MC.player.inventoryMenu.getItems(),9,35,adjustedPos);
 
         graphics.setColor(1f,1f,1f,1f);
         graphics.pose().scale(1 / scale,1 / scale,1f);
     }
 
-    private void renderInventoryItems(GuiGraphics graphics, Vector pos) {
-        List<ItemStack> list = MC.player.inventoryMenu.getItems();
+    public static void renderInventoryItems(GuiGraphics graphics, List<ItemStack> list, int lowIndex, int highIndex, Vector pos) {
         int itemSize = 16;
 
         int i = (list.size() % 9 == 0) ? 0 : 1 + list.size()/9;
         int size = list.size();
         for (int l = 0; l < size; l++) {
-            if (l > 8 && l < 36) {
+            if (l >= lowIndex && l <= highIndex) {
                 Vector pos2 = new Vector(
                         (pos.getX() + 8) + ((itemSize + 2) * (l % 9)),
                         (pos.getY() - 126) + (itemSize + 2) * (l / 9 + 1) + (itemSize + 2) * i);
@@ -62,7 +62,7 @@ public class InventoryWindow extends GuiWindow {
         }
     }
 
-    private void renderChestInventory(GuiGraphics graphics, String title, Vector pos) {
+    public static void renderChestInventory(GuiGraphics graphics, String title, Vector pos) {
         //INFO: Width = 176, Height = 80
         double x = pos.getX();
         double y = pos.getY();

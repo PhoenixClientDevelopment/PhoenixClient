@@ -13,6 +13,7 @@ public class Event {
     public static final MouseClickEvent EVENT_MOUSE_CLICK = new MouseClickEvent();
     public static final PacketEvent EVENT_PACKET = new PacketEvent();
     public static final Event EVENT_RENDER_HUD = new Event();
+    public static final Event EVENT_RENDER_SCREEN = new Event();
     public static final Event EVENT_PLAYER_UPDATE = new Event();
 
 

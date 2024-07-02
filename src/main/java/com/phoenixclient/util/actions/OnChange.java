@@ -17,4 +17,8 @@ public class OnChange<T> {
         }
         prevValue = value;
     }
+
+    public void reset() {
+        prevValue = null;
+    }
 }

@@ -4,7 +4,6 @@ import com.phoenixclient.event.Event;
 import com.phoenixclient.event.EventAction;
 import com.phoenixclient.util.setting.SettingGUI;
 import com.phoenixclient.util.math.Vector;
-import net.minecraft.world.entity.vehicle.Boat;
 
 import static com.phoenixclient.PhoenixClient.MC;
 
@@ -29,7 +28,7 @@ public class YawLock extends Module {
             "Custom Angle for Custom Mode",
             0d)
             .setSliderData(-180,180,1)
-            .setSettingDependency(mode,"Custom");
+            .setDependency(mode,"Custom");
 
     private final SettingGUI<String> customX = new SettingGUI<>(
             this,
@@ -37,7 +36,7 @@ public class YawLock extends Module {
             "Custom X coordinate for Coordinate Mode",
             "0")
             .setTextData(true)
-            .setSettingDependency(mode,"Coordinate");
+            .setDependency(mode,"Coordinate");
 
     private final SettingGUI<String> customZ = new SettingGUI<>(
             this,
@@ -45,7 +44,7 @@ public class YawLock extends Module {
             "Custom Z coordinate for Coordinate Mode",
             "0")
             .setTextData(true)
-            .setSettingDependency(mode,"Coordinate");
+            .setDependency(mode,"Coordinate");
 
 
     public YawLock() {

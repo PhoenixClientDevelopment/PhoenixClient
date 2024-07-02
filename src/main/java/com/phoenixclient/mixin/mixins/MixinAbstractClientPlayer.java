@@ -1,4 +1,4 @@
-package com.phoenixclient.mixin;
+package com.phoenixclient.mixin.mixins;
 
 import com.phoenixclient.PhoenixClient;
 import net.minecraft.client.player.AbstractClientPlayer;

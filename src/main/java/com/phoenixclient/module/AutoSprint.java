@@ -14,6 +14,7 @@ public class AutoSprint extends Module {
 
     private final EventAction onPlayerUpdate = new EventAction(Event.EVENT_PLAYER_UPDATE, () -> {
         if (MC.options.keyUp.isDown()) MC.player.setSprinting(true);
+        if (MC.options.keyShift.isDown()) MC.player.setSprinting(false);
     });
 
     @Override

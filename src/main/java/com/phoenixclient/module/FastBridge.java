@@ -5,11 +5,14 @@ import com.phoenixclient.event.EventAction;
 import com.phoenixclient.util.actions.DoOnce;
 import com.phoenixclient.util.math.Vector;
 import com.phoenixclient.util.setting.SettingGUI;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 import static com.phoenixclient.PhoenixClient.MC;
+
+//TODO: When coding scaffolding, combine this with scaffold as a mode
 
 public class FastBridge extends Module {
 
@@ -32,6 +35,8 @@ public class FastBridge extends Module {
     }
 
     private final EventAction onPlayerUpdate = new EventAction(Event.EVENT_PLAYER_UPDATE, () -> {
+        Block belowBlock = MC.level.getBlockState(BlockPos.containing(MC.player.position()).below()).getBlock();
+
         if (MC.options.keyDown.isDown()) {
             if (MC.player.onGround()) {
 
@@ -44,13 +49,13 @@ public class FastBridge extends Module {
                 if (lockPitch.get()) MC.player.setXRot(75 + antiCheatOffset);
                 MC.player.setYRot(angleHold + antiCheatOffset);
 
-                if (getBlockBelowEntity(MC.player).equals(Blocks.AIR))
+                if (belowBlock.equals(Blocks.AIR))
                     pressShift();
                 else
                     unPressShift();
             }
         } else {
-            if (!getBlockBelowEntity(MC.player).equals(Blocks.AIR))
+            if (!belowBlock.equals(Blocks.AIR))
                 unPressShift();
             unPressLeft();
             unSetAngleHold();
@@ -100,11 +105,6 @@ public class FastBridge extends Module {
         setAngleHold.reset();
     }
 
-
-    private Block getBlockBelowEntity(Entity entity) {
-        Vector vectorClient = new Vector(entity.getX() + (entity.getX() < 0 ? -1 : 0),entity.getY() - 1,entity.getZ() + (entity.getZ() < 0 ? -1 : 0));
-        return (MC.level.getBlockState(vectorClient.getBlockPos()).getBlock());
-    }
 
     private double generateRandomNumber(double min, double max) {
         return Math.floor(Math.random() * (max - min + 1) + min);

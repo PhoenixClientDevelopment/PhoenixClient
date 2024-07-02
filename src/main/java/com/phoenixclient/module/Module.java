@@ -15,6 +15,12 @@ import static com.phoenixclient.PhoenixClient.MC;
 
 public abstract class Module implements IParentGUI, Comparable<Module> {
 
+    /*
+     * Module Ideas List:
+     * Mirror Mod - Creates two images on each side of the screen, rendering like car mirrors to show you the side and back of your view without turning
+     *
+     */
+
     private final ArrayList<EventAction> eventActionList = new ArrayList<>();
 
     private final ArrayList<SettingGUI<?>> settingList = new ArrayList<>();

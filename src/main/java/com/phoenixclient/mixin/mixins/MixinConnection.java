@@ -1,4 +1,4 @@
-package com.phoenixclient.mixin;
+package com.phoenixclient.mixin.mixins;
 
 
 import com.phoenixclient.event.Event;
@@ -35,7 +35,6 @@ public abstract class MixinConnection extends SimpleChannelInboundHandler<Packet
     }
 
     @Shadow
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Packet<?> packet) throws Exception {
-    }
+    protected abstract void channelRead0(ChannelHandlerContext channelHandlerContext, Packet<?> packet);
 
 }
